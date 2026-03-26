@@ -3,45 +3,194 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>세종 어반아트리움 · 분양계약 로드맵</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>파인앤유 분양계약 로드맵</title>
 <style>
-/* ══════════════════════════════════════════
-   ROOT TOKENS
-══════════════════════════════════════════ */
+/* ═══════════════════════════════════════════
+   원본 mobile-integrated-roadmap 스타일 그대로
+═══════════════════════════════════════════ */
 :root{
-  --navy:#0F1E3A; --navy-lt:#1B2F52;
-  --gold:#A07828; --gold-lt:#C49A42;
-  --gray1:#F4F5F8; --gray2:#E8EAF0; --gray3:#B8BDD0; --gray4:#7A82A0;
-  --text1:#0E1830; --text2:#38415E; --text3:#7A82A0;
-  --sp1:#0F3D8A; --sp2:#0A6645; --sp3:#7B3FB5; --sp4:#A07828;
-  --cp1:#0F3D8A; --cp2:#0A6645; --cp3:#B06010; --cp4:#981818; --cp5:#1A5C30;
-  --col-bg:#C83000;
-  --sal-bg:#1B2F52;
-  /* 중도금 분기 색상 */
-  --mid-a:#1B5FA8;   /* 계약 시점 */
-  --mid-b:#6B3FA8;   /* 잔금 시점 */
+  --navy:#0F1E3A;--navy-lt:#1B2F52;
+  --gold:#A07828;--gold-lt:#C49A42;
+  --gray1:#F4F5F8;--gray2:#E8EAF0;--gray3:#B8BDD0;--gray4:#7A82A0;
+  --text1:#0E1830;--text2:#444D66;--text3:#8B92A5;
+  --sp1:#0F3D8A;--sp2:#0A6645;--sp3:#7B3FB5;--sp4:#B8924A;
+  --cp1:#0F3D8A;--cp3:#B06010;--cp4:#981818;--cp5:#1A5C30;
+  --mid-a:#1B5FA8;--mid-b:#6B3FA8;
+  --col-bg:#C83000;--sal-bg:#1B2F52;
   --sx:80px;
+  --nav-h:58px;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
-body{background:#D0D3DE;font-family:'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif;color:var(--text1);-webkit-text-size-adjust:100%;font-size:14px}
+body{background:#D0D3DE;font-family:'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif;color:var(--text1);-webkit-text-size-adjust:100%;font-size:14px;overflow:hidden;height:100vh}
 
-/* PAGE */
-.page{max-width:520px;margin:0 auto;background:#fff;min-height:100vh;box-shadow:0 0 32px rgba(0,0,0,.18)}
-.top-bar{height:4px;background:linear-gradient(90deg,var(--navy),var(--gold),var(--cp4),var(--gold),var(--navy))}
+/* ─── APP SHELL ─── */
+#app{max-width:520px;margin:0 auto;height:100%;display:flex;flex-direction:column;background:#fff;position:relative;overflow:hidden}
+#app::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--navy),var(--gold),var(--cp4),var(--gold),var(--navy));z-index:999}
 
-/* GLOBAL HEADER */
-.g-header{padding:13px 16px 11px;border-bottom:1px solid var(--gray2);display:flex;align-items:center;justify-content:space-between;gap:8px}
-.g-header-left .sup{font-size:8.5px;letter-spacing:1.8px;color:var(--gold);margin-bottom:2px}
-.g-header-left .ttl{font-size:16px;font-weight:700;color:var(--navy);letter-spacing:-.3px;line-height:1.2}
-.g-header-left .sub{font-size:9.5px;color:var(--gray4);margin-top:2px}
-.g-header-right{display:flex;flex-direction:column;gap:4px;align-items:flex-end;flex-shrink:0}
-.hd-badge{background:var(--navy);color:var(--gold-lt);font-size:7.5px;font-weight:700;letter-spacing:1px;padding:3px 7px;border-radius:3px;white-space:nowrap}
-.print-btn{font-size:8.5px;padding:3px 8px;border:1px solid var(--gray3);border-radius:3px;background:#fff;color:var(--gray4);cursor:pointer;font-family:inherit}
+/* ─── TOP BAR ─── */
+#top-bar{height:50px;padding-top:3px;background:var(--navy);display:flex;align-items:center;justify-content:space-between;padding-left:14px;padding-right:14px;flex-shrink:0;z-index:100}
+.tb-logo .sup{font-size:8px;letter-spacing:1.8px;color:var(--gold-lt);margin-bottom:1px}
+.tb-logo .ttl{font-size:14px;font-weight:700;color:#fff;letter-spacing:-.3px}
+.tb-right{display:flex;align-items:center;gap:6px}
+#save-flash{font-size:9px;color:var(--gold-lt);opacity:0;transition:opacity .4s}
+#save-flash.on{opacity:1}
+.tb-btn{border:none;border-radius:4px;font-size:9.5px;font-weight:700;padding:5px 10px;cursor:pointer;font-family:inherit}
+.tb-btn.gold{background:var(--gold);color:#fff}
+.tb-btn.ghost{background:rgba(255,255,255,.15);color:#fff}
 
-/* TAB BANNER */
-.tab-bar{display:flex;border-bottom:2px solid var(--gray2);position:sticky;top:0;z-index:200;background:#fff}
-.tab-btn{flex:1;padding:10px 8px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;border:none;background:var(--gray1);transition:background .15s,border-bottom-color .15s;border-bottom:3px solid transparent;margin-bottom:-2px;user-select:none;-webkit-user-select:none}
+/* ─── SCREENS ─── */
+#wrap{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;position:relative}
+#wrap::-webkit-scrollbar{display:none}
+.scr{display:none;min-height:100%}
+.scr.on{display:block}
+
+/* ─── BOTTOM NAV ─── */
+#bnav{height:var(--nav-h);display:flex;background:#fff;border-top:1px solid var(--gray2);flex-shrink:0;padding-bottom:env(safe-area-inset-bottom)}
+.nb{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:none;background:transparent;cursor:pointer;font-family:inherit}
+.nb.on{background:var(--gray1)}
+.nb-ic{font-size:20px;line-height:1}
+.nb-lb{font-size:9px;font-weight:600;color:var(--gray4)}
+.nb.on .nb-lb{color:var(--navy);font-weight:700}
+.nb.create .nb-ic{font-size:26px;line-height:1}
+.nb.create .nb-lb{color:var(--cp4);font-weight:700}
+
+/* ─────────────────────────────
+   HOME SCREEN
+───────────────────────────── */
+.home-stats{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--gray2)}
+.hs-item{padding:9px 6px;border-right:1px solid var(--gray2);display:flex;flex-direction:column;align-items:center;gap:2px}
+.hs-item:last-child{border-right:none}
+.hs-val{font-size:18px;font-weight:700;color:var(--navy)}
+.hs-lbl{font-size:8px;color:var(--gray4);text-align:center}
+.fl-group{border-bottom:2px solid var(--gray2)}
+.fl-hd{padding:7px 14px;background:var(--navy-lt);display:flex;align-items:center;justify-content:space-between}
+.fl-nm{font-size:12px;font-weight:700;color:#fff;letter-spacing:.3px}
+.fl-ct{font-size:9px;color:var(--gold-lt)}
+.fl-cards{padding:10px 12px 12px;display:flex;flex-direction:column;gap:7px}
+
+/* BANNER */
+.banner{border:1px solid var(--gray2);border-radius:8px;overflow:hidden;cursor:pointer;background:#fff;-webkit-user-select:none;user-select:none;transition:box-shadow .15s}
+.banner:active{opacity:.85}
+.bn-top{padding:10px 13px 7px;display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.bn-left{flex:1;min-width:0}
+.bn-title{font-size:14px;font-weight:700;color:var(--text1);letter-spacing:-.3px;line-height:1.2}
+.bn-buyer{font-size:10px;color:var(--text3);margin-top:2px}
+.bn-badge{font-size:9px;font-weight:700;padding:3px 9px;border-radius:10px;white-space:nowrap;flex-shrink:0;margin-top:2px}
+.bn-meta{padding:0 13px 7px;display:flex;gap:5px;flex-wrap:wrap}
+.bn-chip{font-size:8.5px;padding:2px 7px;border-radius:3px;border:1px solid var(--gray2);color:var(--text3)}
+.bn-prog{padding:0 13px 9px}
+.bn-bg{height:3px;background:var(--gray2);border-radius:2px;overflow:hidden}
+.bn-fill{height:100%;border-radius:2px;background:var(--sp2)}
+/* badge status */
+.bst-none{background:var(--gray2);color:var(--gray4)}
+.bst-plan{background:#DCE8FF;color:#0F3D8A}
+.bst-conf{background:#FFE8A0;color:#7A4C00}
+.bst-done{background:#C0EBD0;color:#085C28}
+.bst-crit{background:#FFD0D0;color:#8A0000}
+
+.empty-home{padding:50px 20px;text-align:center;color:var(--gray4)}
+.empty-ic{font-size:48px;margin-bottom:14px}
+.empty-tx{font-size:12px;line-height:1.7;margin-bottom:20px}
+.empty-cta{background:var(--cp4);color:#fff;border:none;padding:12px 28px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit}
+
+/* ─────────────────────────────
+   CREATE WIZARD OVERLAY
+───────────────────────────── */
+#create-ov{position:absolute;top:3px;left:0;right:0;bottom:0;background:#fff;transform:translateY(102%);transition:transform .3s cubic-bezier(.4,0,.2,1);z-index:500;display:flex;flex-direction:column}
+#create-ov.on{transform:translateY(0)}
+.wiz-hd{background:var(--navy);padding:11px 14px 10px;flex-shrink:0;display:flex;align-items:center;gap:10px}
+.wiz-back{background:rgba(255,255,255,.18);border:none;color:#fff;font-size:11px;font-weight:700;padding:5px 10px;border-radius:5px;cursor:pointer;font-family:inherit;flex-shrink:0}
+.wiz-ttl{flex:1;color:#fff;font-size:14px;font-weight:700}
+/* step indicator */
+.step-ind{display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 14px;background:var(--gray1);border-bottom:1px solid var(--gray2);flex-shrink:0}
+.si-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;border:2px solid var(--gray3);color:var(--gray4);background:#fff;flex-shrink:0;transition:all .2s}
+.si-dot.done{background:var(--sp2);border-color:var(--sp2);color:#fff}
+.si-dot.active{background:var(--navy);border-color:var(--navy);color:#fff}
+.si-line{flex:1;height:2px;background:var(--gray2);border-radius:1px;max-width:30px}
+.si-line.done{background:var(--sp2)}
+.si-labels{display:flex;gap:0;padding:0 14px 8px;justify-content:space-around;flex-shrink:0}
+.si-lbl{font-size:8.5px;font-weight:600;color:var(--gray4);text-align:center;flex:1}
+.si-lbl.active{color:var(--navy);font-weight:700}
+.si-lbl.done{color:var(--sp2)}
+
+#wiz-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:16px 14px 20px}
+#wiz-body::-webkit-scrollbar{display:none}
+.wiz-step{display:none}
+.wiz-step.on{display:block}
+
+/* form elements */
+.wfr{display:flex;flex-direction:column;gap:4px;margin-bottom:14px}
+.wfr label{font-size:10px;font-weight:700;color:var(--navy);letter-spacing:.2px}
+.wfr input,.wfr select{border:1.5px solid var(--gray3);border-radius:7px;padding:10px 13px;font-size:13px;font-family:inherit;background:#fff;color:var(--text1);outline:none;height:42px}
+.wfr input:focus,.wfr select:focus{border-color:var(--navy)}
+.wfr input::placeholder{color:var(--gray3)}
+.wfr2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.wiz-note{font-size:9.5px;color:var(--gray4);line-height:1.6;padding:8px 10px;background:var(--gray1);border-radius:6px;margin-bottom:14px}
+/* mid-type selector in wizard */
+.mid-sel-wiz{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.mid-card{padding:12px;border:2px solid var(--gray3);border-radius:8px;cursor:pointer;-webkit-user-select:none;user-select:none;text-align:center;transition:all .15s}
+.mid-card.sel-a{border-color:var(--mid-a);background:#EEF4FF}
+.mid-card.sel-b{border-color:var(--mid-b);background:#F3EEFF}
+.mid-card-lbl{font-size:11px;font-weight:700;margin-bottom:4px}
+.mid-card-sub{font-size:9px;color:var(--gray4);line-height:1.4}
+/* confirm box */
+.confirm-box{background:var(--gray1);border-radius:8px;padding:14px;margin-bottom:14px}
+.cb-row{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--gray2)}
+.cb-row:last-child{border-bottom:none}
+.cb-lbl{font-size:9.5px;color:var(--gray4);font-weight:600;min-width:70px}
+.cb-val{font-size:12px;font-weight:700;color:var(--text1)}
+/* wizard action buttons */
+.wiz-acts{display:grid;grid-template-columns:1fr 2fr;gap:10px;margin-top:16px}
+.wiz-acts.single{grid-template-columns:1fr}
+.wbtn{padding:12px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;border:none}
+.wbtn.p{background:var(--navy);color:#fff}
+.wbtn.s{background:var(--gray2);color:var(--text2)}
+.wbtn.create{background:var(--cp4);color:#fff;font-size:14px}
+
+/* ─────────────────────────────
+   UNIT OVERLAY  (원본 로드맵 디자인 그대로)
+───────────────────────────── */
+#unit-ov{position:absolute;top:3px;left:0;right:0;bottom:0;background:#fff;transform:translateX(105%);transition:transform .28s cubic-bezier(.4,0,.2,1);z-index:300;display:flex;flex-direction:column;overflow:hidden}
+#unit-ov.on{transform:translateX(0)}
+
+/* unit header */
+#u-head{background:var(--navy);flex-shrink:0}
+#u-head-top{padding:9px 14px 8px;display:flex;align-items:center;gap:8px}
+.u-back{background:rgba(255,255,255,.18);border:none;color:#fff;font-size:11px;font-weight:700;padding:5px 10px;border-radius:5px;cursor:pointer;font-family:inherit;flex-shrink:0}
+.u-ttl-wrap{flex:1;min-width:0}
+.u-fl-lbl{font-size:8px;color:var(--gold-lt);letter-spacing:1px;font-weight:700}
+.u-title{font-size:14px;font-weight:700;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.u-save{background:var(--gold);border:none;color:#fff;font-size:10px;font-weight:700;padding:6px 12px;border-radius:5px;cursor:pointer;font-family:inherit;flex-shrink:0}
+/* info inputs */
+#u-info{padding:0 14px 9px;display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.ui{display:flex;flex-direction:column;gap:2px}
+.ui label{font-size:7.5px;color:var(--gold-lt);font-weight:600;letter-spacing:.3px}
+.ui input,.ui select{border:1px solid rgba(255,255,255,.2);border-radius:4px;padding:4px 7px;font-size:11px;color:#fff;font-family:inherit;background:rgba(255,255,255,.1);outline:none;height:27px}
+.ui input::placeholder{color:rgba(255,255,255,.3)}
+.ui input:focus,.ui select:focus{border-color:var(--gold-lt)}
+.ui select option{color:#000;background:#fff}
+.ui-wide{grid-column:1/-1}
+
+/* ────── 원본 로드맵 스타일 (변경 없음) ────── */
+.u-page{max-width:520px;width:100%;flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.u-page::-webkit-scrollbar{display:none}
+.u-top-bar{height:3px;background:linear-gradient(90deg,var(--navy),var(--gold),var(--cp4),var(--gold),var(--navy))}
+.g-header{padding:0}/* hidden inside overlay */
+
+/* progress */
+.prog-wrap{display:flex;align-items:center;gap:7px;padding:7px 16px;border-bottom:1px solid var(--gray2)}
+.prog-lbl{font-size:9px;color:var(--gray4);font-weight:600;min-width:32px}
+.prog-bg{flex:1;height:5px;background:var(--gray2);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;border-radius:3px;transition:width .4s}
+.prog-fill.sal{background:var(--sp2)} .prog-pct.sal{color:var(--sp2)}
+.prog-fill.cal{background:var(--cp5)} .prog-pct.cal{color:var(--cp5)}
+.prog-pct{font-size:9.5px;font-weight:700;min-width:26px;text-align:right}
+
+/* tab-bar */
+.tab-bar{display:flex;border-bottom:2px solid var(--gray2);background:#fff;flex-shrink:0}
+.tab-btn{flex:1;padding:10px 8px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;border:none;background:var(--gray1);border-bottom:3px solid transparent;margin-bottom:-2px;font-family:inherit;-webkit-user-select:none;user-select:none}
 .tab-btn:first-child{border-right:1px solid var(--gray2)}
 .tab-btn.active{background:#fff;border-bottom-color:var(--navy)}
 .tab-btn .t-icon{font-size:17px;line-height:1}
@@ -49,30 +198,20 @@ body{background:#D0D3DE;font-family:'Apple SD Gothic Neo','Malgun Gothic','Noto 
 .tab-btn.active .t-lbl{color:var(--navy)}
 .tab-btn .t-sub{font-size:8.5px;color:var(--gray4);text-align:center;line-height:1.3}
 
-/* TAB CONTENT */
+/* tab content */
 .tab-content{display:none}
 .tab-content.active{display:block}
 
-/* INFO BAR */
+/* info-bar */
 .info-bar{display:flex;gap:6px;padding:7px 16px;background:var(--gray1);border-bottom:1px solid var(--gray2);flex-wrap:wrap;align-items:center}
 .info-bar label{font-size:9px;color:var(--gray4);font-weight:600;letter-spacing:.2px}
-.info-bar input{border:1px solid var(--gray3);border-radius:4px;padding:4px 7px;font-size:11px;color:var(--text1);font-family:inherit;background:#fff;flex:1;min-width:80px;max-width:130px;outline:none;height:28px}
-.info-bar input:focus{border-color:var(--navy)}
+.info-bar .ib-val{font-size:11.5px;font-weight:700;color:var(--text1)}
 .info-sep{color:var(--gray3);font-size:9px}
 
-/* PROGRESS */
-.prog-wrap{display:flex;align-items:center;gap:7px;padding:7px 16px;border-bottom:1px solid var(--gray2)}
-.prog-lbl{font-size:9px;color:var(--gray4);font-weight:600;min-width:32px}
-.prog-bg{flex:1;height:5px;background:var(--gray2);border-radius:3px;overflow:hidden}
-.prog-fill{height:100%;border-radius:3px;transition:width .4s}
-.prog-pct{font-size:9.5px;font-weight:700;min-width:26px;text-align:right}
-.prog-fill.sal{background:var(--sp2)} .prog-pct.sal{color:var(--sp2)}
-.prog-fill.cal{background:var(--cp5)} .prog-pct.cal{color:var(--cp5)}
-
-/* ALERT BAR */
+/* alert-bar */
 .alert-bar{margin:9px 16px 0;background:#FFF0F0;border:1px solid #FFB8B8;border-radius:5px;padding:7px 10px;font-size:9.5px;color:#981818;font-weight:600;line-height:1.55}
 
-/* SUMMARY CHIPS (콜자금 탭) */
+/* sum-bar */
 .sum-bar{display:grid;grid-template-columns:1fr 1fr;gap:0;border-bottom:1px solid var(--gray2)}
 .sum-item{padding:8px 12px;border-right:1px solid var(--gray2);border-bottom:1px solid var(--gray2);display:flex;flex-direction:column;gap:1px}
 .sum-item:nth-child(2n){border-right:none}
@@ -80,18 +219,18 @@ body{background:#D0D3DE;font-family:'Apple SD Gothic Neo','Malgun Gothic','Noto 
 .sum-lbl{font-size:8px;color:var(--gray4);letter-spacing:.4px;font-weight:600}
 .sum-val{font-size:13px;font-weight:700;color:var(--navy)}
 .sum-sub{font-size:8px;color:var(--gray4);line-height:1.4}
-.sum-val.gold{color:var(--gold)} .sum-val.red{color:var(--cp4)} .sum-val.blue{color:var(--cp1)}
+.sum-val.gold{color:var(--gold)}.sum-val.red{color:var(--cp4)}.sum-val.blue{color:var(--cp1)}
 
-/* COL HEADER */
+/* col-hd */
 .col-hd{display:grid;grid-template-columns:var(--sx) 1fr 80px 62px 26px;padding:5px 16px;background:var(--gray1);border-bottom:2px solid var(--gray2);align-items:center}
 .col-hd span{font-size:8px;color:var(--gray3);letter-spacing:.4px;font-weight:700;text-transform:uppercase}
 .col-hd .c{text-align:center}
 
-/* BODY */
+/* body + spine */
 .body{padding:0 16px;position:relative}
 .spine{position:absolute;left:calc(16px + var(--sx) - 13px);top:0;bottom:0;width:1px;background:var(--gray2);z-index:0}
 
-/* PHASE BLOCK */
+/* phase block */
 .phase-block{display:flex;align-items:flex-start;padding:14px 0 5px;position:relative}
 .phase-block:first-of-type{padding-top:16px}
 .phase-node{width:var(--sx);flex-shrink:0;display:flex;align-items:center;justify-content:flex-end;position:relative}
@@ -99,32 +238,26 @@ body{background:#D0D3DE;font-family:'Apple SD Gothic Neo','Malgun Gothic','Noto 
 .flag-arm{position:absolute;right:12px;top:50%;width:46px;height:3px;background:linear-gradient(90deg,var(--gold-lt),var(--gold));transform:translateY(-50%);border-radius:2px;z-index:2}
 .flag-tip{position:absolute;left:-4px;top:-4px;width:10px;height:10px;border-radius:50%;background:var(--gold);border:2px solid var(--gold-lt);z-index:4}
 .flag-cloth{position:absolute;left:0;top:2px;width:32px;height:40px;display:flex;align-items:center;justify-content:center;z-index:3;border-radius:3px}
+.flag-cloth.ck{overflow:hidden;background:none !important}
 .flag-num{font-size:13px;font-weight:700;color:#fff;line-height:1}
 .flag-star{font-size:9px;color:#FFE070;position:absolute;top:2px;right:2px}
 .phase-label-wrap{flex:1;padding-left:12px;display:flex;flex-direction:column;gap:6px}
 .phase-name-box{display:flex;flex-direction:column;border:2px solid;border-radius:5px;overflow:hidden}
-.phase-name-top{padding:6px 11px;font-size:12.5px;font-weight:700;background:#fff;display:flex;align-items:center;flex-wrap:wrap;gap:4px}
+.phase-name-top{padding:6px 11px;font-size:12.5px;font-weight:700;background:#fff;display:flex;align-items:center;flex-wrap:wrap;gap:4px;line-height:1.3}
 .phase-name-bot{padding:3px 11px 4px;font-size:9px;font-weight:600;color:#fff}
-
-/* DDAY BADGE */
-.phase-dday{font-size:8px;font-weight:700;letter-spacing:.7px;padding:2px 5px;border-radius:8px;color:#fff;white-space:nowrap}
-
-/* COL LINK BUTTONS */
+.phase-dday{font-size:8px;font-weight:700;padding:2px 5px;border-radius:8px;color:#fff;white-space:nowrap}
 .col-link-bar{display:flex;flex-wrap:wrap;gap:5px}
-.col-link-btn{display:inline-flex;align-items:center;gap:3px;color:#fff;font-size:8.5px;font-weight:700;letter-spacing:.3px;padding:5px 9px;border-radius:5px;cursor:pointer;border:none;font-family:inherit;transition:opacity .15s;white-space:nowrap;min-height:30px}
+.col-link-btn{display:inline-flex;align-items:center;gap:3px;color:#fff;font-size:8.5px;font-weight:700;padding:5px 9px;border-radius:5px;cursor:pointer;border:none;font-family:inherit;min-height:30px;white-space:nowrap}
 .col-link-btn:active{opacity:.75}
-.col-link-btn .icon{font-size:10px}
 .btn-계약금{background:var(--col-bg)}
 .btn-중도금A{background:var(--mid-a)}
 .btn-중도금B{background:var(--mid-b)}
 .btn-잔금{background:#981818}
 .btn-sal{background:var(--sal-bg);color:var(--gold-lt)}
 .btn-full{width:100%;justify-content:center}
-
-/* NO-COL NOTICE */
 .no-col-notice{background:#F4F6FF;border:1px solid #D0D8F0;border-radius:5px;padding:6px 10px;font-size:9px;color:#4A6098;display:flex;align-items:center;gap:5px}
 
-/* STEP ROW */
+/* step-row */
 .step-row{display:grid;grid-template-columns:var(--sx) 1fr 80px 62px 26px;align-items:center;border-bottom:1px solid var(--gray2)}
 .step-row:last-of-type{border-bottom:none}
 .step-row.crit-row{background:#FFF8F8}
@@ -137,27 +270,21 @@ body{background:#D0D3DE;font-family:'Apple SD Gothic Neo','Malgun Gothic','Noto 
 .step-tag.crit{background:#FFE0E0;color:var(--cp4);border:1px solid #FFB0B0}
 .step-tag.warn{background:#FFF3D0;color:#8A5800;border:1px solid #FFD880}
 .step-tag.time{background:#E8F0FF;color:#1B5FA8;border:1px solid #A0C0F8}
-
-/* RESP COL */
 .resp-col{padding:0 4px;font-size:9px;color:var(--text3);text-align:center;line-height:1.5}
 .resp-arrow{font-size:8.5px;color:var(--gray3);display:block}
-
-/* STATUS BADGE */
-.st-badge{display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;letter-spacing:.2px;padding:4px 0;border-radius:10px;cursor:pointer;user-select:none;-webkit-user-select:none;white-space:nowrap;transition:all .15s;width:100%;min-height:28px}
+.st-badge{display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;padding:4px 0;border-radius:10px;cursor:pointer;-webkit-user-select:none;user-select:none;width:100%;min-height:28px;transition:all .1s}
 .stat-col{display:flex;align-items:center;justify-content:center;padding:0 2px}
 .st-none{background:var(--gray2);color:var(--gray4)}
 .st-plan{background:#E0EBFF;color:#0F3D8A;border:1px solid #A0C0F8}
 .st-conf{background:#FFF3D0;color:#8A5000;border:1px solid #FFD070}
 .st-done{background:#D4F0E0;color:#0A5A30;border:1px solid #80D4A8}
 .st-crit{background:#FFE0E0;color:#981818;border:1px solid #FFB0B0}
-
-/* MORE BTN */
 .more-col{display:flex;align-items:center;justify-content:center}
-.more-btn{width:22px;height:22px;border-radius:50%;border:1px solid var(--gray3);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--gray4);user-select:none;-webkit-user-select:none;flex-shrink:0;transition:all .15s}
+.more-btn{width:22px;height:22px;border-radius:50%;border:1px solid var(--gray3);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--gray4);-webkit-user-select:none;user-select:none;flex-shrink:0;transition:all .15s}
 .more-btn.open{background:var(--navy);color:#fff;border-color:var(--navy)}
 
-/* DETAIL DRAWER */
-.detail-drawer{display:none;background:var(--gray1);border-bottom:1px solid var(--gray2);padding:10px 12px 10px calc(var(--sx) + 10px)}
+/* detail-drawer */
+.detail-drawer{display:none;background:var(--gray1);border-bottom:1px solid var(--gray2);padding:10px 12px 10px calc(var(--sx) + 12px)}
 .detail-drawer.open{display:block}
 .detail-row{display:flex;align-items:flex-start;gap:7px;margin-bottom:7px}
 .detail-row:last-child{margin-bottom:0}
@@ -169,901 +296,859 @@ body{background:#D0D3DE;font-family:'Apple SD Gothic Neo','Malgun Gothic','Noto 
 .date-input-sm:focus{border-color:var(--navy)}
 .memo-input{border:1px solid var(--gray2);border-radius:4px;padding:4px 7px;font-size:10px;color:var(--text2);font-family:inherit;background:#fff;outline:none;width:100%;resize:none}
 .memo-input:focus{border-color:var(--navy)}
-
-/* LAW CHIP */
 .law-chip{display:inline-block;background:#F0F4FF;border:1px solid #C0CCF0;color:#2244A0;font-size:8px;font-weight:700;padding:1px 5px;border-radius:8px;white-space:nowrap}
-
-/* SECTION DIVIDER */
 .sec-gap{height:7px}
 .sec-line{height:1px;background:var(--gray2)}
-
-/* HIGHLIGHT ANIMATION */
-.phase-block.highlight .phase-name-box{box-shadow:0 0 0 3px rgba(160,120,40,.6);animation:pulse-hl 1.6s ease-out forwards}
-@keyframes pulse-hl{0%{box-shadow:0 0 0 3px rgba(160,120,40,.8)}100%{box-shadow:0 0 0 3px rgba(160,120,40,0)}}
-
-/* 중도금 구분 박스 */
-.mid-divider{margin:0 16px;border-radius:6px;overflow:hidden;border:1px solid var(--gray2)}
+.mid-divider{margin:10px 16px 0;border-radius:6px;overflow:hidden;border:1px solid var(--gray2)}
 .mid-divider-header{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--gray2)}
-.mid-tab{padding:7px 8px;text-align:center;font-size:9px;font-weight:700;cursor:pointer;user-select:none;-webkit-user-select:none;transition:all .15s;border:none;font-family:inherit}
+.mid-tab{padding:7px 8px;text-align:center;font-size:9px;font-weight:700;cursor:pointer;-webkit-user-select:none;user-select:none;border:none;font-family:inherit}
 .mid-tab.a{background:var(--mid-a);color:#fff}
 .mid-tab.b{background:var(--mid-b);color:#fff}
 .mid-tab.inactive{background:var(--gray1);color:var(--gray4)}
 .mid-body{padding:9px 11px;background:#fff;font-size:9.5px;color:var(--text2);line-height:1.65}
-.mid-body b{font-weight:700}
+/* highlight */
+.phase-block.highlight .phase-name-box{box-shadow:0 0 0 3px rgba(160,120,40,.6);animation:hl-pulse 1.6s ease-out forwards}
+@keyframes hl-pulse{0%{box-shadow:0 0 0 3px rgba(160,120,40,.8)}100%{box-shadow:0 0 0 3px rgba(160,120,40,0)}}
 
-/* FOOTER */
 .footer-note{padding:8px 16px;font-size:8.5px;color:var(--gray3);text-align:center;border-top:1px solid var(--gray2);line-height:1.5}
-.bot-bar{height:4px;background:linear-gradient(90deg,var(--gold),var(--cp4),var(--navy),var(--cp4),var(--gold))}
+.bot-bar{height:3px;background:linear-gradient(90deg,var(--gold),var(--cp4),var(--navy),var(--cp4),var(--gold))}
 
-/* 기표 checkerboard */
-.flag-cloth.ck{overflow:hidden;background:none !important}
-
-/* SAFE AREA (iPhone notch) */
-.page{padding-bottom:env(safe-area-inset-bottom)}
-
-@media(min-width:540px){
-  .page{margin:16px auto;border-radius:8px;min-height:auto}
-}
-@media print{
-  .tab-bar{position:static}
-  .tab-content{display:block !important}
-  .more-btn{display:none}
-  .detail-drawer{display:block !important}
-  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
-}
+/* ─── TOAST ─── */
+#toast{position:absolute;bottom:calc(var(--nav-h)+10px);left:50%;transform:translateX(-50%) translateY(6px);background:rgba(10,24,48,.92);color:#fff;font-size:10.5px;font-weight:600;padding:8px 18px;border-radius:20px;opacity:0;transition:all .22s;pointer-events:none;white-space:nowrap;z-index:999}
+#toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
-<div class="page">
-<div class="top-bar"></div>
+<div id="app">
 
-<!-- ══ GLOBAL HEADER ══ -->
-<div class="g-header">
-  <div class="g-header-left">
-    <div class="sup">세종 어반아트리움 · RSL Management</div>
-    <div class="ttl">파인앤유 분양계약 로드맵</div>
-    <div class="sub">분양계약 절차 + 콜자금 통합 관리</div>
-  </div>
-  <div class="g-header-right">
-    <div class="hd-badge">INTEGRATED</div>
-    <button class="print-btn" onclick="window.print()">🖨 인쇄</button>
-  </div>
-</div>
-
-<!-- ══ TAB BANNER ══ -->
-<div class="tab-bar">
-  <button class="tab-btn active" id="tab-sal" onclick="switchTab('sal')">
-    <span class="t-icon">📋</span>
-    <span class="t-lbl">분양계약 절차</span>
-    <span class="t-sub">전계약 → 정계약 → 기표</span>
-  </button>
-  <button class="tab-btn" id="tab-cal" onclick="switchTab('cal')">
-    <span class="t-icon">💰</span>
-    <span class="t-lbl">콜자금 로드맵</span>
-    <span class="t-sub">D-60 → D-0 → D+7</span>
-  </button>
-</div>
-
-
-<!-- ══════════════════════════════════════════════════
-     TAB 1 : 분양계약 절차
-══════════════════════════════════════════════════════ -->
-<div class="tab-content active" id="content-sal">
-
-  <div class="info-bar">
-    <label>차주명</label><input type="text" id="s-buyer" placeholder="홍길동" oninput="updateSalTitle()">
-    <span class="info-sep">|</span>
-    <label>호실</label><input type="text" id="s-room" placeholder="1F-103" oninput="updateSalTitle()">
-  </div>
-  <div class="prog-wrap">
-    <span class="prog-lbl">진행률</span>
-    <div class="prog-bg"><div class="prog-fill sal" id="sal-prog-fill" style="width:0%"></div></div>
-    <span class="prog-pct sal" id="sal-prog-pct">0%</span>
-  </div>
-  <div class="col-hd">
-    <span></span><span>절차 단계</span>
-    <span class="c">담당</span><span class="c">상태</span><span class="c"></span>
+  <!-- TOP BAR -->
+  <div id="top-bar">
+    <div class="tb-logo">
+      <div class="sup">세종 어반아트리움 · RSL Management · MOIN</div>
+      <div class="ttl">파인앤유 분양계약 로드맵</div>
+    </div>
+    <div class="tb-right">
+      <span id="save-flash">✓ 저장됨</span>
+      <button class="tb-btn gold" onclick="manualSave()">💾 저장</button>
+    </div>
   </div>
 
-  <div class="body">
-  <div class="spine"></div>
+  <!-- SCREENS -->
+  <div id="wrap">
+    <!-- HOME -->
+    <div class="scr on" id="s-home">
+      <div id="home-stats"></div>
+      <div id="home-floors"></div>
+    </div>
+    <!-- MANUAL (정적 로드맵 그대로) -->
+    <div class="scr" id="s-manual">
+      <div style="padding:12px 14px 8px;background:var(--gray1);border-bottom:1px solid var(--gray2)">
+        <div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:2px">📖 매뉴얼 — 분양계약 로드맵</div>
+        <div style="font-size:9.5px;color:var(--gray4)">분양계약 절차 + 콜자금 로드맵 통합 참조 가이드 (읽기 전용)</div>
+      </div>
+      <!-- static manual tabs -->
+      <div class="tab-bar" style="position:sticky;top:0;z-index:10">
+        <button class="tab-btn active" id="man-tab-sal" onclick="manTab('sal')">
+          <span class="t-icon">📋</span><span class="t-lbl">분양계약 절차</span><span class="t-sub">전계약→정계약→기표</span>
+        </button>
+        <button class="tab-btn" id="man-tab-cal" onclick="manTab('cal')">
+          <span class="t-icon">💰</span><span class="t-lbl">콜자금 로드맵</span><span class="t-sub">D-60→D-0→D+7</span>
+        </button>
+      </div>
+      <div id="man-content-sal" class="tab-content active"></div>
+      <div id="man-content-cal" class="tab-content"></div>
+    </div>
+  </div>
 
-  <!-- ═══ PHASE 1 · 전(前) 분양계약 ═══
-       계약금 미납부 단계 → 콜자금 연결 없음  -->
-  <div class="phase-block" id="sal-p1">
-    <div class="phase-node">
-      <div class="node-circle" style="border-color:var(--sp1);color:var(--sp1)">●</div>
-      <div class="flag-arm">
-        <div class="flag-tip"></div>
-        <div class="flag-cloth" style="background:var(--sp1)"><span class="flag-num">1</span></div>
+  <!-- BOTTOM NAV -->
+  <div id="bnav">
+    <button class="nb on" id="nb-home" onclick="goScr('home')">
+      <span class="nb-ic">🏠</span><span class="nb-lb">홈</span>
+    </button>
+    <button class="nb create" id="nb-create" onclick="openCreate()">
+      <span class="nb-ic">＋</span><span class="nb-lb">로드맵 생성</span>
+    </button>
+    <button class="nb" id="nb-manual" onclick="goScr('manual')">
+      <span class="nb-ic">📖</span><span class="nb-lb">매뉴얼</span>
+    </button>
+  </div>
+
+  <!-- CREATE WIZARD OVERLAY -->
+  <div id="create-ov">
+    <div class="wiz-hd">
+      <button class="wiz-back" onclick="closeCreate()">✕ 닫기</button>
+      <div class="wiz-ttl">로드맵 생성</div>
+    </div>
+    <div class="step-ind">
+      <div class="si-dot active" id="si1">1</div>
+      <div class="si-line" id="sl12"></div>
+      <div class="si-dot" id="si2">2</div>
+      <div class="si-line" id="sl23"></div>
+      <div class="si-dot" id="si3">3</div>
+    </div>
+    <div class="si-labels">
+      <span class="si-lbl active" id="sil1">층·호실</span>
+      <span class="si-lbl" id="sil2">차주 정보</span>
+      <span class="si-lbl" id="sil3">확인·생성</span>
+    </div>
+    <div id="wiz-body">
+      <!-- STEP 1: 층·호실 -->
+      <div class="wiz-step on" id="wstep1">
+        <div class="wfr">
+          <label>층 선택</label>
+          <select id="wfl">
+            <option value="">── 층을 선택하세요 ──</option>
+            <option value="B1F">B1F (지하 1층)</option>
+            <option value="1F">1F (1층)</option>
+            <option value="2F">2F (2층)</option>
+            <option value="3F">3F (3층)</option>
+            <option value="4F">4F (4층 · SO형)</option>
+          </select>
+        </div>
+        <div class="wiz-note">
+          호실 번호 범위를 입력하세요.<br>
+          · <b>여러 호실</b>: 시작번호 ~ 끝번호 (예: 101~108 → 8개 배너 생성)<br>
+          · <b>1개 호실</b>: 시작번호와 끝번호를 같게 입력
+        </div>
+        <div class="wfr2">
+          <div class="wfr"><label>시작 호실번호</label><input type="number" id="wstart" placeholder="예: 101" min="1" oninput="syncEnd()"></div>
+          <div class="wfr"><label>끝 호실번호</label><input type="number" id="wend" placeholder="예: 108" min="1"></div>
+        </div>
+        <div id="wiz-preview" style="font-size:9.5px;color:var(--sp2);font-weight:600;margin-bottom:12px;min-height:18px"></div>
+        <div class="wiz-acts single">
+          <button class="wbtn p" onclick="wizNext(1)">다음 →</button>
+        </div>
+      </div>
+
+      <!-- STEP 2: 차주 정보 -->
+      <div class="wiz-step" id="wstep2">
+        <div class="wiz-note">각 호실에 공통으로 적용될 정보를 입력합니다. 개별 수정은 배너 클릭 후 가능합니다.</div>
+        <div class="wfr"><label>차주명</label><input type="text" id="wbuyer" placeholder="예: 홍길동 / 케이농산"></div>
+        <div class="wfr"><label>법인명 (선택)</label><input type="text" id="wcorp" placeholder="예: (주)파인앤유"></div>
+        <div class="wfr"><label>콜자금액 (선택)</label><input type="text" id="wamt" placeholder="예: 150,000,000 원"></div>
+        <div class="wfr"><label>기표일 예정 (선택)</label><input type="date" id="wkdate"></div>
+        <div style="font-size:10px;font-weight:700;color:var(--navy);margin-bottom:8px">중도금 납부 유형 선택</div>
+        <div class="mid-sel-wiz" id="mid-sel-wiz">
+          <div class="mid-card sel-a" onclick="selectMidWiz('a')">
+            <div class="mid-card-lbl" style="color:var(--mid-a)">💙 중도금 A</div>
+            <div class="mid-card-sub">계약 시점 납부<br>계약금과 함께</div>
+          </div>
+          <div class="mid-card" onclick="selectMidWiz('b')">
+            <div class="mid-card-lbl" style="color:var(--mid-b)">💜 중도금 B</div>
+            <div class="mid-card-sub">잔금 시점 납부<br>D-0 통합 실행</div>
+          </div>
+        </div>
+        <div class="wiz-acts">
+          <button class="wbtn s" onclick="wizBack(2)">← 이전</button>
+          <button class="wbtn p" onclick="wizNext(2)">다음 →</button>
+        </div>
+      </div>
+
+      <!-- STEP 3: 확인·생성 -->
+      <div class="wiz-step" id="wstep3">
+        <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:10px">📋 생성 내용 확인</div>
+        <div class="confirm-box" id="confirm-box"></div>
+        <div style="font-size:9.5px;color:var(--gray4);margin-bottom:14px;line-height:1.6">
+          ✅ "생성" 버튼을 누르면 홈 화면에 배너가 생성됩니다.<br>
+          개별 호실별 세부 정보는 배너 클릭 후 수정 가능합니다.
+        </div>
+        <div class="wiz-acts">
+          <button class="wbtn s" onclick="wizBack(3)">← 이전</button>
+          <button class="wbtn create" onclick="createUnits()">🏢 생성</button>
+        </div>
       </div>
     </div>
+  </div>
+
+  <!-- UNIT OVERLAY (원본 로드맵 그대로) -->
+  <div id="unit-ov">
+    <div id="u-head">
+      <div id="u-head-top">
+        <button class="u-back" onclick="closeUnit()">← 목록</button>
+        <div class="u-ttl-wrap">
+          <div class="u-fl-lbl" id="u-fl-lbl"></div>
+          <div class="u-title" id="u-title"></div>
+        </div>
+        <button class="u-save" onclick="manualSave()">💾 저장</button>
+      </div>
+      <div id="u-info">
+        <div class="ui"><label>차주명</label><input id="ui-buyer" placeholder="홍길동" oninput="uiSet('buyer',this.value)"></div>
+        <div class="ui"><label>법인명</label><input id="ui-corp" placeholder="(주)파인앤유" oninput="uiSet('corp',this.value)"></div>
+        <div class="ui ui-wide"><label>콜자금액</label><input id="ui-amt" placeholder="000,000,000 원" oninput="uiSet('amt',this.value)"></div>
+        <div class="ui"><label>기표일(예정)</label><input type="date" id="ui-kdate" onchange="uiSet('kdate',this.value)"></div>
+        <div class="ui"><label>중도금 유형</label>
+          <select id="ui-mid" onchange="uiSet('mid',this.value);renderUnit()">
+            <option value="a">A — 계약 시점</option>
+            <option value="b">B — 잔금 시점</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- inner page scroll area -->
+    <div class="u-page" id="u-page">
+      <!-- sal progress -->
+      <div class="prog-wrap">
+        <span class="prog-lbl">분양계약</span>
+        <div class="prog-bg"><div class="prog-fill sal" id="sal-prog-fill" style="width:0%"></div></div>
+        <span class="prog-pct sal" id="sal-prog-pct">0%</span>
+      </div>
+
+      <!-- tab bar -->
+      <div class="tab-bar">
+        <button class="tab-btn active" id="tab-sal" onclick="switchTab('sal')">
+          <span class="t-icon">📋</span>
+          <span class="t-lbl">분양계약 절차</span>
+          <span class="t-sub">전계약 → 정계약 → 기표</span>
+        </button>
+        <button class="tab-btn" id="tab-cal" onclick="switchTab('cal')">
+          <span class="t-icon">💰</span>
+          <span class="t-lbl">콜자금 로드맵</span>
+          <span class="t-sub">D-60 → D-0 → D+7</span>
+        </button>
+      </div>
+
+      <!-- SAL TAB -->
+      <div class="tab-content active" id="content-sal"></div>
+      <!-- CAL TAB -->
+      <div class="tab-content" id="content-cal"></div>
+
+      <div class="footer-note">세종 어반아트리움 파인앤유 · RSL Management<br>분양계약 로드맵 통합 관리 시스템 · MOIN · BIC</div>
+      <div class="bot-bar"></div>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+</div><!-- /app -->
+
+<script>
+/* ════════════════════════════════════════
+   DB
+════════════════════════════════════════ */
+const KEY='fay_final_v1';
+const SAL_N=10, CAL_N=16;
+const ST=[{c:'st-none',l:'—'},{c:'st-plan',l:'예정'},{c:'st-conf',l:'진행중'},{c:'st-done',l:'완료'},{c:'st-crit',l:'지연'}];
+let db={units:{}}, cur=null, saveTimer=null, wizStep=1, wizMid='a';
+
+function initDB(){
+  try{db=JSON.parse(localStorage.getItem(KEY))||{units:{}};}catch(e){db={units:{}};}
+  if(!db.units)db.units={};
+}
+function saveDB(quiet){
+  localStorage.setItem(KEY,JSON.stringify(db));
+  if(!quiet){flashSave();toast('✓ 저장됨');}
+}
+function autoSave(){clearTimeout(saveTimer);saveTimer=setTimeout(()=>{localStorage.setItem(KEY,JSON.stringify(db));flashSave();},700);}
+function manualSave(){saveDB(false);}
+function flashSave(){const e=document.getElementById('save-flash');e.classList.add('on');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('on'),3000);}
+
+function mkUnit(fl,num,buyer,corp,amt,kdate,mid){
+  return {fl,num,buyer:buyer||'',corp:corp||'',amt:amt||'',kdate:kdate||'',mid:mid||'a',
+    sS:Array(SAL_N).fill(0),cS:Array(CAL_N).fill(0),
+    sDt:Array(SAL_N).fill(''),cDt:Array(CAL_N).fill(''),
+    sMm:Array(SAL_N).fill(''),cMm:Array(CAL_N).fill('')};
+}
+function uid(fl,num){return fl+'_'+num;}
+
+function unitStatus(u){
+  if(!u)return 'none';
+  const a=[...(u.sS||[]),...(u.cS||[])];
+  if(a.every(s=>s===0))return 'none';
+  if(a.some(s=>s===4))return 'crit';
+  if((u.sS||[]).every(s=>s===3)&&(u.cS||[]).every(s=>s===3))return 'done';
+  if((u.sS||[]).every(s=>s===3))return 'done'; // sal done
+  if(a.some(s=>s>=2))return 'conf';
+  if(a.some(s=>s>=1))return 'plan';
+  return 'none';
+}
+function unitPct(u){
+  if(!u)return 0;
+  const d=[...(u.sS||[]),...(u.cS||[])].filter(s=>s===3).length;
+  return Math.round(d/(SAL_N+CAL_N)*100);
+}
+
+/* ════════════════════════════════════════
+   HOME
+════════════════════════════════════════ */
+const FLOOR_ORDER=['B1F','1F','2F','3F','4F'];
+const FLOOR_LABELS={B1F:'B1F (지하 1층)',['1F']:'1F (1층)',['2F']:'2F (2층)',['3F']:'3F (3층)',['4F']:'4F (4층 · SO형)'};
+
+function renderHome(){
+  const allU=Object.values(db.units);
+  const cnt={none:0,plan:0,conf:0,done:0,crit:0};
+  allU.forEach(u=>{const s=unitStatus(u);cnt[s]=(cnt[s]||0)+1;});
+  document.getElementById('home-stats').innerHTML=`
+    <div class="home-stats">
+      <div class="hs-item"><div class="hs-val">${allU.length}</div><div class="hs-lbl">총 호실</div></div>
+      <div class="hs-item"><div class="hs-val" style="color:#8A5000">${cnt.conf}</div><div class="hs-lbl">진행중</div></div>
+      <div class="hs-item"><div class="hs-val" style="color:#0A5A30">${cnt.done}</div><div class="hs-lbl">완료</div></div>
+      <div class="hs-item"><div class="hs-val" style="color:#981818">${cnt.crit}</div><div class="hs-lbl">지연</div></div>
+    </div>`;
+  if(!allU.length){
+    document.getElementById('home-floors').innerHTML=`
+      <div class="empty-home">
+        <div class="empty-ic">🏢</div>
+        <div class="empty-tx">아직 생성된 로드맵이 없습니다.<br>하단 <b>＋ 로드맵 생성</b> 버튼으로<br>호실별 배너를 만들어 보세요.</div>
+        <button class="empty-cta" onclick="openCreate()">＋ 로드맵 생성</button>
+      </div>`;
+    return;
+  }
+  let h='';
+  FLOOR_ORDER.forEach(fl=>{
+    const flUnits=Object.values(db.units).filter(u=>u.fl===fl).sort((a,b)=>+a.num-+b.num);
+    if(!flUnits.length)return;
+    const done=flUnits.filter(u=>unitStatus(u)==='done').length;
+    h+=`<div class="fl-group"><div class="fl-hd"><div class="fl-nm">${fl}</div><div class="fl-ct">${flUnits.length}개 호실 · 완료 ${done}</div></div><div class="fl-cards">`;
+    flUnits.forEach(u=>{
+      const id=uid(u.fl,u.num), st=unitStatus(u), pct=unitPct(u);
+      const badgeTx=st==='done'?'완료':st==='conf'?'진행중':st==='plan'?'예정':st==='crit'?'지연':'미시작';
+      h+=`<div class="banner" onclick="openUnit('${id}')">
+        <div class="bn-top">
+          <div class="bn-left">
+            <div class="bn-title">${u.fl} ${u.num}호 분양계약</div>
+            <div class="bn-buyer">${u.buyer||'차주 미입력'}${u.corp?' · '+u.corp:''}</div>
+          </div>
+          <span class="bn-badge bst-${st}">${badgeTx}</span>
+        </div>
+        <div class="bn-meta">
+          ${u.kdate?`<span class="bn-chip">📅 기표 ${u.kdate}</span>`:''}
+          ${u.amt?`<span class="bn-chip">💰 ${u.amt}</span>`:''}
+          <span class="bn-chip">진행 ${pct}%</span>
+          <span class="bn-chip">중도금 ${u.mid==='b'?'B-잔금':'A-계약'}</span>
+        </div>
+        <div class="bn-prog"><div class="bn-bg"><div class="bn-fill" style="width:${pct}%"></div></div></div>
+      </div>`;
+    });
+    h+=`</div></div>`;
+  });
+  document.getElementById('home-floors').innerHTML=h;
+}
+
+/* ════════════════════════════════════════
+   CREATE WIZARD
+════════════════════════════════════════ */
+function openCreate(){
+  wizStep=1; wizMid='a';
+  document.getElementById('wfl').value='';
+  document.getElementById('wstart').value='';
+  document.getElementById('wend').value='';
+  document.getElementById('wbuyer').value='';
+  document.getElementById('wcorp').value='';
+  document.getElementById('wamt').value='';
+  document.getElementById('wkdate').value='';
+  selectMidWiz('a');
+  showWizStep(1);
+  document.getElementById('create-ov').classList.add('on');
+}
+function closeCreate(){document.getElementById('create-ov').classList.remove('on');}
+
+function syncEnd(){
+  const s=document.getElementById('wstart').value;
+  const e=document.getElementById('wend').value;
+  if(s&&!e) document.getElementById('wend').value=s;
+  updatePreview();
+}
+function updatePreview(){
+  const fl=document.getElementById('wfl').value;
+  const s=parseInt(document.getElementById('wstart').value)||0;
+  const e=parseInt(document.getElementById('wend').value)||0;
+  const el=document.getElementById('wiz-preview');
+  if(fl&&s&&e&&s<=e){
+    const cnt=e-s+1;
+    el.textContent=`→ ${fl} ${s}호${cnt>1?` ~ ${e}호 (${cnt}개 배너 생성)`:'호 (1개 배너 생성)'}`;
+  } else {
+    el.textContent='';
+  }
+}
+document.getElementById('wend').addEventListener('input',updatePreview);
+document.getElementById('wfl').addEventListener('change',updatePreview);
+
+function showWizStep(n){
+  [1,2,3].forEach(i=>{
+    document.getElementById('wstep'+i).classList.toggle('on',i===n);
+    const dot=document.getElementById('si'+i);
+    dot.classList.remove('active','done');
+    if(i===n) dot.classList.add('active');
+    else if(i<n) dot.classList.add('done');
+    const lbl=document.getElementById('sil'+i);
+    lbl.classList.remove('active','done');
+    if(i===n) lbl.classList.add('active');
+    else if(i<n) lbl.classList.add('done');
+  });
+  ['12','23'].forEach(pair=>{
+    const [a,b]=pair.split('').map(Number);
+    document.getElementById('sl'+pair).classList.toggle('done',n>a);
+  });
+  wizStep=n;
+}
+function wizNext(from){
+  if(from===1){
+    const fl=document.getElementById('wfl').value;
+    const s=parseInt(document.getElementById('wstart').value)||0;
+    const e=parseInt(document.getElementById('wend').value)||0;
+    if(!fl){toast('층을 선택해주세요');return;}
+    if(!s){toast('시작 호실번호를 입력해주세요');return;}
+    if(!e||s>e){toast('끝 호실번호를 확인해주세요');return;}
+    showWizStep(2);
+  } else if(from===2){
+    buildConfirm();
+    showWizStep(3);
+  }
+}
+function wizBack(from){
+  showWizStep(from-1);
+}
+function selectMidWiz(v){
+  wizMid=v;
+  document.querySelectorAll('.mid-card').forEach((c,i)=>{
+    c.className='mid-card'+(i===0&&v==='a'?' sel-a':i===1&&v==='b'?' sel-b':'');
+  });
+}
+function buildConfirm(){
+  const fl=document.getElementById('wfl').value;
+  const s=parseInt(document.getElementById('wstart').value);
+  const e=parseInt(document.getElementById('wend').value);
+  const buyer=document.getElementById('wbuyer').value||'(미입력)';
+  const corp=document.getElementById('wcorp').value||'—';
+  const amt=document.getElementById('wamt').value||'—';
+  const kdate=document.getElementById('wkdate').value||'—';
+  const cnt=e-s+1;
+  document.getElementById('confirm-box').innerHTML=`
+    <div class="cb-row"><span class="cb-lbl">층·호실</span><span class="cb-val">${fl} ${s}호${cnt>1?` ~ ${e}호 (${cnt}개)`:'(1개)'}</span></div>
+    <div class="cb-row"><span class="cb-lbl">차주명</span><span class="cb-val">${buyer}</span></div>
+    <div class="cb-row"><span class="cb-lbl">법인명</span><span class="cb-val">${corp}</span></div>
+    <div class="cb-row"><span class="cb-lbl">콜자금액</span><span class="cb-val">${amt}</span></div>
+    <div class="cb-row"><span class="cb-lbl">기표일(예정)</span><span class="cb-val">${kdate}</span></div>
+    <div class="cb-row"><span class="cb-lbl">중도금 유형</span><span class="cb-val">${wizMid==='a'?'A — 계약 시점':'B — 잔금 시점'}</span></div>`;
+}
+function createUnits(){
+  const fl=document.getElementById('wfl').value;
+  const s=parseInt(document.getElementById('wstart').value);
+  const e=parseInt(document.getElementById('wend').value);
+  const buyer=document.getElementById('wbuyer').value;
+  const corp=document.getElementById('wcorp').value;
+  const amt=document.getElementById('wamt').value;
+  const kdate=document.getElementById('wkdate').value;
+  let created=0;
+  for(let n=s;n<=e;n++){
+    const id=uid(fl,String(n));
+    if(!db.units[id]){
+      db.units[id]=mkUnit(fl,String(n),buyer,corp,amt,kdate,wizMid);
+      created++;
+    }
+  }
+  saveDB(false);
+  closeCreate();
+  renderHome();
+  goScr('home');
+  toast(`✅ ${fl} ${s}호${e>s?`~${e}호`:''} — ${created}개 배너 생성 완료`);
+}
+
+/* ════════════════════════════════════════
+   UNIT OVERLAY
+════════════════════════════════════════ */
+function openUnit(id){
+  cur=id;
+  const u=db.units[id];
+  if(!u)return;
+  const flLabel=FLOOR_LABELS[u.fl]||u.fl;
+  document.getElementById('u-fl-lbl').textContent=flLabel+' ·';
+  document.getElementById('u-title').textContent=u.fl+' '+u.num+'호 분양계약';
+  document.getElementById('ui-buyer').value=u.buyer||'';
+  document.getElementById('ui-corp').value=u.corp||'';
+  document.getElementById('ui-amt').value=u.amt||'';
+  document.getElementById('ui-kdate').value=u.kdate||'';
+  document.getElementById('ui-mid').value=u.mid||'a';
+  // reset tabs
+  document.getElementById('tab-sal').classList.add('active');
+  document.getElementById('tab-cal').classList.remove('active');
+  document.getElementById('content-sal').classList.add('active');
+  document.getElementById('content-cal').classList.remove('active');
+  renderUnit();
+  document.getElementById('unit-ov').classList.add('on');
+  document.getElementById('u-page').scrollTop=0;
+}
+function closeUnit(){
+  document.getElementById('unit-ov').classList.remove('on');
+  cur=null; renderHome();
+}
+function uiSet(f,v){
+  if(!cur)return; const u=db.units[cur]; if(!u)return;
+  u[f]=v; autoSave();
+}
+function renderUnit(){
+  if(!cur)return;
+  const u=db.units[cur];
+  document.getElementById('content-sal').innerHTML=buildSalHTML(u);
+  document.getElementById('content-cal').innerHTML=buildCalHTML(u);
+  updateProgress('sal'); updateProgress('cal');
+}
+
+/* ════════════════════════════════════════
+   ROADMAP HTML BUILDERS (원본 구조 그대로)
+════════════════════════════════════════ */
+function sb(grp,idx,u){
+  const arr=grp==='sal'?u.sS:u.cS;
+  const v=arr[idx]||0;
+  return `<span class="st-badge ${ST[v].c}" data-grp="${grp}" data-idx="${idx}" onclick="cycleStatus(this,'${grp}')">${ST[v].l}</span>`;
+}
+function dr(pre,idx,note,crit,dt,mm,extra){
+  const hasNote=note&&note.trim();
+  return `<div id="${pre}d${idx}" class="detail-drawer">
+    ${hasNote?`<div class="detail-row"><span class="detail-lbl">비고</span><div>${extra||''}<div class="detail-val">${note.split('\n')[0]}</div>${note.split('\n').slice(1).map(l=>`<div class="detail-note-txt">${l}</div>`).join('')}${crit?'<div class="detail-crit">'+crit+'</div>':''}</div></div>`:''}
+    <div class="detail-row"><span class="detail-lbl">날짜</span><input type="date" class="date-input-sm" value="${dt}" onchange="onDate(this,'${pre==='s'?'sal':'cal'}',${idx})"></div>
+    <div class="detail-row"><span class="detail-lbl">메모</span><textarea class="memo-input" rows="2" placeholder="메모" onchange="onMemo(this,'${pre==='s'?'sal':'cal'}',${idx})">${mm}</textarea></div>
+  </div>`;
+}
+function stepRow(grp,pre,idx,num,name,resp,u,opts){
+  opts=opts||{};
+  const rowCls=opts.crit?'step-row crit-row':'step-row';
+  const tags=(opts.tags||[]).map(t=>`<span class="step-tag ${t.cls}">${t.l}</span>`).join('');
+  const critMark=opts.crit?`<span class="step-tag crit">★</span>`:'';
+  const arr=grp==='sal'?u.sS:u.cS;
+  const v=arr[idx]||0;
+  const sDt=(grp==='sal'?u.sDt:u.cDt)[idx]||'';
+  const sMm=(grp==='sal'?u.sMm:u.cMm)[idx]||'';
+  return `<div class="${rowCls}">
+    <div class="step-sp"><div class="step-circle" ${opts.circleStyle?'style="'+opts.circleStyle+'"':''}></div></div>
+    <div class="step-main"><span class="step-num"${opts.numStyle?' style="'+opts.numStyle+'"':''}>${num}</span>${opts.lawChip?'<span class="law-chip">§598</span>':''}<span class="step-name"${opts.nameStyle?' style="'+opts.nameStyle+'"':''}>${name}</span>${tags}${critMark}</div>
+    <div class="resp-col">${resp.replace('→','<span class="resp-arrow">→</span>').replace('↔','<span class="resp-arrow">↔</span>')}</div>
+    <div class="stat-col"><span class="st-badge ${ST[v].c}" data-grp="${grp}" data-idx="${idx}" onclick="cycleStatus(this,'${grp}')">${ST[v].l}</span></div>
+    <div class="more-col"><div class="more-btn" onclick="toggleDetail('${pre}',${idx})">+</div></div>
+  </div>`;
+}
+
+function buildSalHTML(u){
+  const mid=u.mid||'a';
+  let h=`<div class="body"><div class="spine">`;
+
+  // PHASE 1 전(前) 분양계약
+  h+=`</div><div class="phase-block" id="sal-p1">
+    <div class="phase-node"><div class="node-circle" style="border-color:var(--sp1);color:var(--sp1)">●</div>
+      <div class="flag-arm"><div class="flag-tip"></div><div class="flag-cloth" style="background:var(--sp1)"><span class="flag-num">1</span></div></div></div>
     <div class="phase-label-wrap">
       <div class="phase-name-box" style="border-color:var(--sp1)">
         <div class="phase-name-top" style="color:var(--sp1)">전(前) 분양계약</div>
         <div class="phase-name-bot" style="background:var(--sp1)">대출승인을 위한 분양계약</div>
       </div>
-      <!-- 계약금 미납 → 콜자금 연결 없음 표시 -->
-      <div class="no-col-notice">
-        ℹ️ 이 단계는 계약금 미납부 · 콜자금 연결 없음
-      </div>
-    </div>
-  </div>
+      <div class="no-col-notice">ℹ️ 이 단계는 계약금 미납부 · 콜자금 연결 없음</div>
+    </div></div>`;
+  const s0=[
+    {i:0,n:'①',nm:'계약체결본 준비',rp:'파인아이앤디',nt:'차주법인 정보 전달'},
+    {i:1,n:'②',nm:'계약체결본 송부',rp:'파인아이앤디 → 분양대행사',nt:'시행사 날인본 등기 속달\n· 오픈 전: 상가거래소 등기 수령\n· 오픈 후: 세종 분양사무실 수령'},
+    {i:2,n:'③',nm:'계약체결본 전달',rp:'분양대행사 → 차주법인',nt:''},
+    {i:3,n:'④',nm:'계약서 날인',rp:'차주법인',nt:'차주법인 계약서 날인'},
+    {i:4,n:'⑤',nm:'은행 대출 승인 절차 개시',rp:'차주법인',nt:'계약금 입금 없음 — 대출 승인 조건부'}
+  ];
+  s0.forEach(s=>{h+=stepRow('sal','s',s.i,s.n,s.nm,s.rp,u)+dr('s',s.i,s.nt,'',u.sDt[s.i]||'',u.sMm[s.i]||'');});
+  h+=`<div class="sec-gap"></div><div class="sec-line"></div>`;
 
-  <div class="step-row">
-    <div class="step-sp"><div class="step-circle"></div></div>
-    <div class="step-main"><span class="step-num">①</span><span class="step-name">계약체결본 준비</span></div>
-    <div class="resp-col">파인아이앤디</div>
-    <div class="stat-col"><span class="st-badge st-none" data-grp="sal" data-idx="0" onclick="cycleStatus(this,'sal')">—</span></div>
-    <div class="more-col"><div class="more-btn" onclick="toggleDetail('s',0)">+</div></div>
-  </div>
-  <div id="sd0" class="detail-drawer">
-    <div class="detail-row"><span class="detail-lbl">비고</span><span class="detail-val">차주법인 정보 전달</span></div>
-    <div class="detail-row"><span class="detail-lbl">날짜</span><input type="date" class="date-input-sm" onchange="onDate(this,'sal',0)"></div>
-    <div class="detail-row"><span class="detail-lbl">메모</span><textarea class="memo-input" rows="2" placeholder="메모"></textarea></div>
-  </div>
-
-  <div class="step-row">
-    <div class="step-sp"><div class="step-circle"></div></div>
-    <div class="step-main"><span class="step-num">②</span><span class="step-name">계약체결본 송부</span></div>
-    <div class="resp-col">파인아이앤디<span class="resp-arrow">→</span>분양대행사</div>
-    <div class="stat-col"><span class="st-badge st-none" data-grp="sal" data-idx="1" onclick="cycleStatus(this,'sal')">—</span></div>
-    <div class="more-col"><div class="more-btn" onclick="toggleDetail('s',1)">+</div></div>
-  </div>
-  <div id="sd1" class="detail-drawer">
-    <div class="detail-row"><span class="detail-lbl">비고</span>
-      <div><div class="detail-val">시행사 날인본 등기 속달</div>
-      <div class="detail-note-txt">· 사무실 오픈 전 → 상가거래소 등기 수령<br>· 오픈 후 → 세종 분양사무실 수령</div></div>
-    </div>
-    <div class="detail-row"><span class="detail-lbl">날짜</span><input type="date" class="date-input-sm" onchange="onDate(this,'sal',1)"></div>
-    <div class="detail-row"><span class="detail-lbl">메모</span><textarea class="memo-input" rows="2" placeholder="메모"></textarea></div>
-  </div>
-
-  <div class="step-row">
-    <div class="step-sp"><div class="step-circle"></div></div>
-    <div class="step-main"><span class="step-num">③</span><span class="step-name">계약체결본 전달</span></div>
-    <div class="resp-col">분양대행사<span class="resp-arrow">→</span>차주법인</div>
-    <div class="stat-col"><span class="st-badge st-none" data-grp="sal" data-idx="2" onclick="cycleStatus(this,'sal')">—</span></div>
-    <div class="more-col"><div class="more-btn" onclick="toggleDetail('s',2)">+</div></div>
-  </div>
-  <div id="sd2" class="detail-drawer">
-    <div class="detail-row"><span class="detail-lbl">비고</span><span class="detail-val">분양대행사 → 차주법인</span></div>
-    <div class="detail-row"><span class="detail-lbl">날짜</span><input type="date" class="date-input-sm" onchange="onDate(this,'sal',2)"></div>
-    <div class="detail-row"><span class="detail-lbl">메모</span><textarea class="memo-input" rows="2" placeholder="메모"></textarea></div>
-  </div>
-
-  <div class="step-row">
-    <div class="step-sp"><div class="step-circle"></div></div>
-    <div class="step-main"><span class="step-num">④</span><span class="step-name">계약서 날인</span></div>
-    <div class="resp-col">차주법인</div>
-    <div class="stat-col"><span class="st-badge st-none" data-grp="sal" data-idx="3" onclick="cycleStatus(this,'sal')">—</span></div>
-    <div class="more-col"><div class="more-btn" onclick="toggleDetail('s',3)">+</div></div>
-  </div>
-  <div id="sd3" class="detail-drawer">
-    <div class="detail-row"><span class="detail-lbl">비고</span><span class="detail-val">차주법인 계약서 날인</span></div>
-    <div class="detail-row"><span class="detail-lbl">날짜</span><input type="date" class="date-input-sm" onchange="onDate(this,'sal',3)"></div>
-    <div class="detail-row"><span class="detail-lbl">메모</span><textarea class="memo-input" rows="2" placeholder="메모"></textarea></div>
-  </div>
-
-  <div class="step-row">
-    <div class="step-sp"><div class="step-circle"></div></div>
-    <div class="step-main"><span class="step-num">⑤</span><span class="step-name">은행 대출 승인 절차 개시</span></div>
-    <div class="resp-col">차주법인</div>
-    <div class="stat-col"><span class="st-badge st-none" data-grp="sal" data-idx="4" onclick="cycleStatus(this,'sal')">—</span></div>
-    <div class="more-col"><div class="more-btn" onclick="toggleDetail('s',4)">+</div></div>
-  </div>
-  <div id="sd4" class="detail-drawer">
-    <div class="detail-row"><span class="detail-lbl">비고</span><span class="detail-val">계약금 입금 없음 — 대출 승인 조건부</span></div>
-    <div class="detail-row"><span class="detail-lbl">날짜</span><input type="date" class="date-input-sm" onchange="onDate(this,'sal',4)"></div>
-    <div class="detail-row"><span class="detail-lbl">메모</span><textarea class="memo-input" rows="2" placeholder="메모"></textarea></div>
-  </div>
-
-  <div class="sec-gap"></div><div class="sec-line"></div>
-
-  <!-- ═══ PHASE 2 · 정(正) 분양계약 ═══
-       계약금 납부 + 중도금(계약시점) 발생 가능  -->
-  <div class="phase-block" id="sal-p2">
-    <div class="phase-node">
-      <div class="node-circle" style="border-color:var(--sp2);color:var(--sp2)">●</div>
-      <div class="flag-arm">
-        <div class="flag-tip"></div>
-        <div class="flag-cloth" style="background:var(--sp2)"><span class="flag-num">2</span></div>
-      </div>
-    </div>
+  // PHASE 2 정(正) 분양계약
+  h+=`<div class="phase-block" id="sal-p2">
+    <div class="phase-node"><div class="node-circle" style="border-color:var(--sp2);color:var(--sp2)">●</div>
+      <div class="flag-arm"><div class="flag-tip"></div><div class="flag-cloth" style="background:var(--sp2)"><span class="flag-num">2</span></div></div></div>
     <div class="phase-label-wrap">
       <div class="phase-name-box" style="border-color:var(--sp2)">
         <div class="phase-name-top" style="color:var(--sp2)">정(正) 분양계약</div>
         <div class="phase-name-bot" style="background:var(--sp2)">대출 승인 후 정식 분양계약 · 계약금 납부</div>
       </div>
       <div class="col-link-bar">
-        <button class="col-link-btn btn-계약금" onclick="jumpToCall('cal-p1')">
-          <span class="icon">💰</span> 콜 ① 계약금 시점
-        </button>
-        <button class="col-link-btn btn-중도금A" onclick="jumpToCall('cal-mid-a')">
-          <span class="icon">💰</span> 콜 ② 중도금 (계약 시점)
-        </button>
+        <button class="col-link-btn btn-계약금" onclick="jumpToCall('cal-p1')"><span>💰</span> 콜 ① 계약금 시점</button>
+        ${mid==='a'?`<button class="col-link-btn btn-중도금A" onclick="jumpToCall('cal-mid-a')"><span>💰</span> 콜 ② 중도금(계약시점)</button>`:''}
       </div>
-    </div>
-  </div>
+    </div></div>`;
+  const s1=[
+    {i:5,n:'⑥',nm:'계약서 재작성',rp:'파인아이앤디 ↔ 차주',nt:'당일 날짜로 분양계약서 재작성\n· 대전본사 또는 세종 어반아트리움'},
+    {i:6,n:'⑦',nm:'계약금 입금',rp:'차주법인 → 파인아이앤디',nt:'입금확인증 발행',cr:'💰 콜자금 ① 계약금 시점 실행 가능 구간'}
+  ];
+  s1.forEach(s=>{h+=stepRow('sal','s',s.i,s.n,s.nm,s.rp,u)+dr('s',s.i,s.nt,s.cr||'',u.sDt[s.i]||'',u.sMm[s.i]||'');});
+  h+=`<div class="sec-gap"></div><div class="sec-line"></div>`;
 
-  <div class="step-row">
-    <div class="step-sp"><div class="step-circle"></div></div>
-    <div class="step-main"><span class="step-num">⑥</span><span class="step-name">계약서 재작성</span></div>
-    <div class="resp-col">파인아이앤디<span class="resp-arrow">↔</span>차주</div>
-    <div class="stat-col"><span class="st-badge st-none" data-grp="sal" data-idx="5" onclick="cycleStatus(this,'sal')">—</span></div>
-    <div class="more-col"><div class="more-btn" onclick="toggleDetail('s',5)">+</div></div>
-  </div>
-  <div id="sd5" class="detail-drawer">
-    <div class="detail-row"><span class="detail-lbl">비고</span>
-      <div><div class="detail-val">당일 날짜로 분양계약서 재작성</div>
-      <div class="detail-note-txt">· 대전본사 또는 세종 어반아트리움</div></div>
-    </div>
-    <div class="detail-row"><span class="detail-lbl">날짜</span><input type="date" class="date-input-sm" onchange="onDate(this,'sal',5)"></div>
-    <div class="detail-row"><span class="detail-lbl">메모</span><textarea class="memo-input" rows="2" placeholder="메모"></textarea></div>
-  </div>
-
-  <div class="step-row">
-    <div class="step-sp"><div class="step-circle"></div></div>
-    <div class="step-main"><span class="step-num">⑦</span><span class="step-name">계약금 입금</span></div>
-    <div class="resp-col">차주법인<span class="resp-arrow">→</span>파인아이앤디</div>
-    <div class="stat-col"><span class="st-badge st-none" data-grp="sal" data-idx="6" onclick="cycleStatus(this,'sal')">—</span></div>
-    <div class="more-col"><div class="more-btn" onclick="toggleDetail('s',6)">+</div></div>
-  </div>
-  <div id="sd6" class="detail-drawer">
-    <div class="detail-row"><span class="detail-lbl">비고</span>
-      <div><div class="detail-val">입금확인증 발행</div>
-      <div class="detail-crit">💰 콜자금 ① 계약금 시점 실행 가능 구간</div></div>
-    </div>
-    <div class="detail-row"><span class="detail-lbl">날짜</span><input type="date" class="date-input-sm" onchange="onDate(this,'sal',6)"></div>
-    <div class="detail-row"><span class="detail-lbl">메모</span><textarea class="memo-input" rows="2" placeholder="메모"></textarea></div>
-  </div>
-
-  <div class="sec-gap"></div><div class="sec-line"></div>
-
-  <!-- ═══ PHASE 3 · 대주단 승인절차 ═══
-       중도금(잔금 시점) + 잔금 콜자금 연결  -->
-  <div class="phase-block" id="sal-p3">
-    <div class="phase-node">
-      <div class="node-circle" style="border-color:var(--sp3);color:var(--sp3)">●</div>
-      <div class="flag-arm">
-        <div class="flag-tip"></div>
-        <div class="flag-cloth" style="background:var(--sp3)"><span class="flag-num">3</span></div>
-      </div>
-    </div>
+  // PHASE 3 대주단 승인절차
+  h+=`<div class="phase-block" id="sal-p3">
+    <div class="phase-node"><div class="node-circle" style="border-color:var(--sp3);color:var(--sp3)">●</div>
+      <div class="flag-arm"><div class="flag-tip"></div><div class="flag-cloth" style="background:var(--sp3)"><span class="flag-num">3</span></div></div></div>
     <div class="phase-label-wrap">
       <div class="phase-name-box" style="border-color:var(--sp3)">
         <div class="phase-name-top" style="color:var(--sp3)">대주단 승인절차</div>
         <div class="phase-name-bot" style="background:var(--sp3)">금융기관 최종 심사 · 기표일 지정</div>
       </div>
       <div class="col-link-bar">
-        <button class="col-link-btn btn-중도금B" onclick="jumpToCall('cal-mid-b')">
-          <span class="icon">💰</span> 콜 ② 중도금 (잔금 시점)
-        </button>
-        <button class="col-link-btn btn-잔금" onclick="jumpToCall('cal-p3')">
-          <span class="icon">💰</span> 콜 ③ 잔금 준비 ★크리티컬
-        </button>
+        ${mid==='b'?`<button class="col-link-btn btn-중도금B" onclick="jumpToCall('cal-mid-b')"><span>💰</span> 콜 ② 중도금(잔금시점)</button>`:''}
+        <button class="col-link-btn btn-잔금" onclick="jumpToCall('cal-p3')"><span>💰</span> 콜 ③ 잔금 준비 ★크리티컬</button>
       </div>
-    </div>
-  </div>
+    </div></div>`;
+  h+=stepRow('sal','s',7,'⑧','대주단 승인 사실 통보','차주법인 → 파인아이앤디',u)+dr('s',7,'','',u.sDt[7]||'',u.sMm[7]||'');
+  h+=stepRow('sal','s',8,'⑨','기표일 지정','차주→대행→파인아이앤디',u,{crit:true})+dr('s',8,'기표일 확정 → 콜자금 D-0 일정 즉시 공유','★ 기표일 확정 즉시 콜자금 Phase 3 (대여자 확보) 연동',u.sDt[8]||'',u.sMm[8]||'');
+  h+=`<div class="sec-gap"></div><div class="sec-line"></div>`;
 
-  <div class="step-row">
-    <div class="step-sp"><div class="step-circle"></div></div>
-    <div class="step-main"><span class="step-num">⑧</span><span class="step-name">대주단 승인 사실 통보</span></div>
-    <div class="resp-col">차주법인<span class="resp-arrow">→</span>파인아이앤디</div>
-    <div class="stat-col"><span class="st-badge st-none" data-grp="sal" data-idx="7" onclick="cycleStatus(this,'sal')">—</span></div>
-    <div class="more-col"><div class="more-btn" onclick="toggleDetail('s',7)">+</div></div>
-  </div>
-  <div id="sd7" class="detail-drawer">
-    <div class="detail-row"><span class="detail-lbl">날짜</span><input type="date" class="date-input-sm" onchange="onDate(this,'sal',7)"></div>
-    <div class="detail-row"><span class="detail-lbl">메모</span><textarea class="memo-input" rows="2" placeholder="메모"></textarea></div>
-  </div>
-
-  <div class="step-row">
-    <div class="step-sp"><div class="step-circle"></div></div>
-    <div class="step-main"><span class="step-num">⑨</span><span class="step-name">기표일 지정</span></div>
-    <div class="resp-col" style="font-size:8.5px">차주→대행→파인아이앤디</div>
-    <div class="stat-col"><span class="st-badge st-none" data-grp="sal" data-idx="8" onclick="cycleStatus(this,'sal')">—</span></div>
-    <div class="more-col"><div class="more-btn" onclick="toggleDetail('s',8)">+</div></div>
-  </div>
-  <div id="sd8" class="detail-drawer">
-    <div class="detail-row"><span class="detail-lbl">비고</span>
-      <div><div class="detail-val">기표일 확정 → 콜자금 D-0 일정 즉시 공유</div>
-      <div class="detail-crit">★ 기표일 확정 즉시 콜자금 Phase 3 (대여자 확보) 연동</div></div>
-    </div>
-    <div class="detail-row"><span class="detail-lbl">날짜</span><input type="date" class="date-input-sm" onchange="onDate(this,'sal',8)"></div>
-    <div class="detail-row"><span class="detail-lbl">메모</span><textarea class="memo-input" rows="2" placeholder="메모"></textarea></div>
-  </div>
-
-  <div class="sec-gap"></div><div class="sec-line"></div>
-
-  <!-- ═══ PHASE 4 · 기표 ═══ -->
-  <div class="phase-block" id="sal-p4">
-    <div class="phase-node">
-      <div class="node-circle" style="border-color:var(--gold);color:var(--gold)">●</div>
-      <div class="flag-arm">
-        <div class="flag-tip"></div>
-        <div class="flag-cloth ck">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 42" width="32" height="42">
-            <defs><clipPath id="ck1"><rect width="32" height="42" rx="3"/></clipPath></defs>
-            <g clip-path="url(#ck1)">
-              <rect x="0"  y="0"    width="5.3" height="5.25" fill="#0F1E3A"/><rect x="5.3"  y="0"    width="5.4" height="5.25" fill="#fff"/>
-              <rect x="10.7" y="0"  width="5.3" height="5.25" fill="#0F1E3A"/><rect x="16"   y="0"    width="5.3" height="5.25" fill="#fff"/>
-              <rect x="21.3" y="0"  width="5.4" height="5.25" fill="#0F1E3A"/><rect x="26.7" y="0"    width="5.3" height="5.25" fill="#fff"/>
-              <rect x="0"  y="5.25" width="5.3" height="5.25" fill="#fff"/>  <rect x="5.3"  y="5.25" width="5.4" height="5.25" fill="#0F1E3A"/>
-              <rect x="10.7" y="5.25" width="5.3" height="5.25" fill="#fff"/><rect x="16"   y="5.25" width="5.3" height="5.25" fill="#0F1E3A"/>
-              <rect x="21.3" y="5.25" width="5.4" height="5.25" fill="#fff"/><rect x="26.7" y="5.25" width="5.3" height="5.25" fill="#0F1E3A"/>
-              <rect x="0"  y="10.5" width="5.3" height="5.25" fill="#0F1E3A"/><rect x="5.3" y="10.5" width="5.4" height="5.25" fill="#fff"/>
-              <rect x="10.7" y="10.5" width="5.3" height="5.25" fill="#0F1E3A"/><rect x="16" y="10.5" width="5.3" height="5.25" fill="#fff"/>
-              <rect x="21.3" y="10.5" width="5.4" height="5.25" fill="#0F1E3A"/><rect x="26.7" y="10.5" width="5.3" height="5.25" fill="#fff"/>
-              <rect x="0"  y="15.75" width="5.3" height="5.25" fill="#fff"/>  <rect x="5.3" y="15.75" width="5.4" height="5.25" fill="#0F1E3A"/>
-              <rect x="10.7" y="15.75" width="5.3" height="5.25" fill="#fff"/><rect x="16"  y="15.75" width="5.3" height="5.25" fill="#0F1E3A"/>
-              <rect x="21.3" y="15.75" width="5.4" height="5.25" fill="#fff"/><rect x="26.7" y="15.75" width="5.3" height="5.25" fill="#0F1E3A"/>
-              <rect x="0"  y="21"   width="5.3" height="5.25" fill="#0F1E3A"/><rect x="5.3" y="21"   width="5.4" height="5.25" fill="#fff"/>
-              <rect x="10.7" y="21" width="5.3" height="5.25" fill="#0F1E3A"/><rect x="16"  y="21"   width="5.3" height="5.25" fill="#fff"/>
-              <rect x="21.3" y="21" width="5.4" height="5.25" fill="#0F1E3A"/><rect x="26.7" y="21"   width="5.3" height="5.25" fill="#fff"/>
-              <rect x="0"  y="26.25" width="5.3" height="5.25" fill="#fff"/>  <rect x="5.3" y="26.25" width="5.4" height="5.25" fill="#0F1E3A"/>
-              <rect x="10.7" y="26.25" width="5.3" height="5.25" fill="#fff"/><rect x="16"  y="26.25" width="5.3" height="5.25" fill="#0F1E3A"/>
-              <rect x="21.3" y="26.25" width="5.4" height="5.25" fill="#fff"/><rect x="26.7" y="26.25" width="5.3" height="5.25" fill="#0F1E3A"/>
-              <rect x="0"  y="31.5" width="5.3" height="5.25" fill="#0F1E3A"/><rect x="5.3" y="31.5" width="5.4" height="5.25" fill="#fff"/>
-              <rect x="10.7" y="31.5" width="5.3" height="5.25" fill="#0F1E3A"/><rect x="16" y="31.5" width="5.3" height="5.25" fill="#fff"/>
-              <rect x="21.3" y="31.5" width="5.4" height="5.25" fill="#0F1E3A"/><rect x="26.7" y="31.5" width="5.3" height="5.25" fill="#fff"/>
-              <rect x="0"  y="36.75" width="5.3" height="5.25" fill="#fff"/>  <rect x="5.3" y="36.75" width="5.4" height="5.25" fill="#0F1E3A"/>
-              <rect x="10.7" y="36.75" width="5.3" height="5.25" fill="#fff"/><rect x="16"  y="36.75" width="5.3" height="5.25" fill="#0F1E3A"/>
-              <rect x="21.3" y="36.75" width="5.4" height="5.25" fill="#fff"/><rect x="26.7" y="36.75" width="5.3" height="5.25" fill="#0F1E3A"/>
-            </g>
-          </svg>
-        </div>
-      </div>
-    </div>
+  // PHASE 4 기표
+  h+=`<div class="phase-block" id="sal-p4">
+    <div class="phase-node"><div class="node-circle" style="border-color:var(--gold);color:var(--gold)">●</div>
+      <div class="flag-arm"><div class="flag-tip"></div>
+        <div class="flag-cloth ck"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 42" width="32" height="42"><defs><clipPath id="ck1"><rect width="32" height="42" rx="3"/></clipPath></defs><g clip-path="url(#ck1)">${Array.from({length:8},(_,r)=>Array.from({length:6},(_,c)=>`<rect x="${c*5.3}" y="${r*5.25}" width="5.3" height="5.25" fill="${(r+c)%2===0?'#0F1E3A':'#fff'}"/>`).join('')).join('')}</g></svg></div>
+      </div></div>
     <div class="phase-label-wrap">
       <div class="phase-name-box" style="border-color:var(--gold)">
         <div class="phase-name-top" style="color:var(--gold);font-size:14px">기표</div>
         <div class="phase-name-bot" style="background:var(--gold)">대출 실행 완료</div>
       </div>
       <div class="col-link-bar">
-        <button class="col-link-btn btn-잔금 btn-full" onclick="jumpToCall('cal-p4')">
-          <span class="icon">💰</span> 콜 ③ D-0 당일 연결 ★ SLACK=0
-        </button>
+        <button class="col-link-btn btn-잔금 btn-full" onclick="jumpToCall('cal-p4')"><span>💰</span> 콜 ③ D-0 당일 연결 ★ SLACK=0</button>
       </div>
-    </div>
-  </div>
+    </div></div>`;
+  h+=stepRow('sal','s',9,'⑩','중도금 잔금 입금','자금흐름표 참조',u,{crit:true})+dr('s',9,'자금흐름표 참조','★ 콜자금 로드맵 Phase 4 (D-0 당일)와 100% 연동',u.sDt[9]||'',u.sMm[9]||'');
+  h+=`<div style="height:20px"></div></div>`;
+  return h;
+}
 
-  <div class="step-row">
-    <div class="step-sp"><div class="step-circle" style="border-color:var(--gold)"></div></div>
-    <div class="step-main"><span class="step-num">⑩</span><span class="step-name">중도금 잔금 입금</span></div>
-    <div class="resp-col">자금흐름표</div>
-    <div class="stat-col"><span class="st-badge st-none" data-grp="sal" data-idx="9" onclick="cycleStatus(this,'sal')">—</span></div>
-    <div class="more-col"><div class="more-btn" onclick="toggleDetail('s',9)">+</div></div>
-  </div>
-  <div id="sd9" class="detail-drawer">
-    <div class="detail-row"><span class="detail-lbl">비고</span>
-      <div><div class="detail-val">자금흐름표 참조</div>
-      <div class="detail-crit">★ 콜자금 로드맵 Phase 4 (D-0 당일)와 100% 연동</div></div>
-    </div>
-    <div class="detail-row"><span class="detail-lbl">날짜</span><input type="date" class="date-input-sm" onchange="onDate(this,'sal',9)"></div>
-    <div class="detail-row"><span class="detail-lbl">메모</span><textarea class="memo-input" rows="2" placeholder="메모"></textarea></div>
-  </div>
-
-  <div style="height:20px"></div>
-  </div><!-- /body -->
-
-</div><!-- /tab-content sal -->
-
-
-<!-- ══════════════════════════════════════════════════
-     TAB 2 : 콜자금 로드맵
-══════════════════════════════════════════════════════ -->
-<div class="tab-content" id="content-cal">
-
-  <div class="sum-bar">
+function buildCalHTML(u){
+  const mid=u.mid||'a';
+  let h=`<div class="sum-bar">
     <div class="sum-item"><div class="sum-lbl">관계 당사자</div><div class="sum-val blue">5개 주체</div><div class="sum-sub">대여자·차주·신탁사·대행사·시행사</div></div>
     <div class="sum-item"><div class="sum-lbl">완결 구조</div><div class="sum-val red">1영업일</div><div class="sum-sub">slack=0 · 지연 불가</div></div>
     <div class="sum-item"><div class="sum-lbl">수수료율</div><div class="sum-val gold">0.5~1.5%</div><div class="sum-sub">대출금액 기준 · 시행사 부담</div></div>
     <div class="sum-item"><div class="sum-lbl">법적 성격</div><div class="sum-val" style="font-size:11px">소비대차</div><div class="sum-sub">민법 §598</div></div>
   </div>
-
-  <div class="info-bar">
-    <label>차주명</label><input type="text" id="c-buyer" placeholder="홍길동" oninput="updateCalTitle()">
-    <span class="info-sep">|</span>
-    <label>콜자금액</label><input type="text" id="c-amt" placeholder="000,000,000 원">
-  </div>
-  <div class="prog-wrap">
-    <span class="prog-lbl">진행률</span>
-    <div class="prog-bg"><div class="prog-fill cal" id="cal-prog-fill" style="width:0%"></div></div>
-    <span class="prog-pct cal" id="cal-prog-pct">0%</span>
-  </div>
-  <div style="padding:8px 16px 0">
-    <div class="alert-bar">★ Phase 3 (대여자 확보) · Phase 4 (D-0 당일)는 크리티컬 패스. 지연 시 계약 해제 위험.</div>
-  </div>
-
-  <!-- ═══ 중도금 납부 시점 선택 안내 ═══ -->
-  <div class="mid-divider" style="margin-top:10px">
+  <div style="padding:8px 16px 0"><div class="alert-bar">★ Phase 3 (대여자 확보) · Phase 4 (D-0 당일)는 크리티컬 패스. 지연 시 계약 해제 위험.</div></div>
+  <div class="mid-divider">
     <div class="mid-divider-header">
-      <button class="mid-tab a" id="mid-tab-a" onclick="selectMid('a')">
-        💙 중도금 A — 계약 시점 납부
-      </button>
-      <button class="mid-tab b inactive" id="mid-tab-b" onclick="selectMid('b')">
-        💜 중도금 B — 잔금 시점 납부
-      </button>
+      <button class="mid-tab a${mid!=='a'?' inactive':''}" id="mid-tab-a" onclick="selectMid('a')">💙 중도금 A — 계약 시점 납부</button>
+      <button class="mid-tab b${mid!=='b'?' inactive':''}" id="mid-tab-b" onclick="selectMid('b')">💜 중도금 B — 잔금 시점 납부</button>
     </div>
-    <div class="mid-body" id="mid-body-a">
-      <b style="color:var(--mid-a)">계약 시점 중도금</b> — 정(正) 분양계약(Phase 2) 체결 시 계약금과 함께 납부.<br>
-      · 납부처: 분양 신탁계좌 (집단대출 관리)<br>
-      · 콜자금 실행 시점: 계약금 콜자금과 동일 또는 별도 실행<br>
-      · 금액: 회차당 10% × 최대 6회
-    </div>
-    <div class="mid-body" id="mid-body-b" style="display:none">
-      <b style="color:var(--mid-b)">잔금 시점 중도금</b> — 잔금 납부(기표일 D-0) 시 함께 납부.<br>
-      · 납부처: 분양 신탁계좌 (잔금 수탁)<br>
-      · 콜자금 실행 시점: 잔금 콜자금(Phase 4)과 동일 영업일 통합 실행<br>
-      · slack=0 · 지연 불가 — 잔금 콜자금과 동일 리스크 수준
-    </div>
+    <div class="mid-body" ${mid!=='a'?'style="display:none"':''} id="mid-body-a"><b style="color:var(--mid-a)">계약 시점 중도금</b> — 정(正) 분양계약(Phase 2) 체결 시 계약금과 함께 납부.<br>· 납부처: 분양 신탁계좌 (집단대출 관리)<br>· 금액: 회차당 10% × 최대 6회</div>
+    <div class="mid-body" ${mid!=='b'?'style="display:none"':''} id="mid-body-b"><b style="color:var(--mid-b)">잔금 시점 중도금</b> — 잔금 납부(기표일 D-0) 시 함께 납부.<br>· 납부처: 분양 신탁계좌 (잔금 수탁)<br>· slack=0 · 지연 불가 — 잔금 콜자금과 동일 리스크</div>
   </div>
+  <div class="col-hd" style="margin-top:10px"><span></span><span>절차 단계</span><span class="c">담당</span><span class="c">상태</span><span class="c"></span></div>
+  <div class="body"><div class="spine">`;
 
-  <div class="col-hd" style="margin-top:10px">
-    <span></span><span>절차 단계</span>
-    <span class="c">담당</span><span class="c">상태</span><span class="c"></span>
-  </div>
-
-  <div class="body">
-  <div class="spine"></div>
-
-  <!-- ═══ PHASE 1 · 계약 단계 (계약금 콜자금) ═══ -->
-  <div class="phase-block" id="cal-p1">
-    <div class="phase-node">
-      <div class="node-circle" style="border-color:var(--cp1);color:var(--cp1)">●</div>
-      <div class="flag-arm" style="background:linear-gradient(90deg,#5080D0,var(--cp1))">
-        <div class="flag-tip" style="background:var(--cp1)"></div>
-        <div class="flag-cloth" style="background:var(--cp1)"><span class="flag-num">1</span></div>
-      </div>
-    </div>
+  // PHASE 1 계약금
+  h+=`</div><div class="phase-block" id="cal-p1">
+    <div class="phase-node"><div class="node-circle" style="border-color:var(--cp1);color:var(--cp1)">●</div>
+      <div class="flag-arm" style="background:linear-gradient(90deg,#5080D0,var(--cp1))"><div class="flag-tip" style="background:var(--cp1)"></div>
+        <div class="flag-cloth" style="background:var(--cp1)"><span class="flag-num">1</span></div></div></div>
     <div class="phase-label-wrap">
       <div class="phase-name-box" style="border-color:var(--cp1)">
-        <div class="phase-name-top" style="color:var(--cp1)">
-          콜 ① 계약금 시점
-          <span class="phase-dday" style="background:var(--cp1)">정계약일</span>
-        </div>
+        <div class="phase-name-top" style="color:var(--cp1)">콜 ① 계약금 시점 <span class="phase-dday" style="background:var(--cp1)">정계약일</span></div>
         <div class="phase-name-bot" style="background:var(--cp1)">정(正) 분양계약 체결 · 계약금 납부 시 실행</div>
       </div>
-      <div class="col-link-bar">
-        <button class="col-link-btn btn-sal" onclick="jumpToSal('sal-p2')">
-          📋 분양계약 Phase 2 연결
-        </button>
-      </div>
-    </div>
-  </div>
+      <div class="col-link-bar"><button class="col-link-btn btn-sal" onclick="jumpToSal('sal-p2')">📋 분양계약 Phase 2 연결</button></div>
+    </div></div>`;
+  const c0=[
+    {i:0,n:'①',nm:'대여자 → 차주 계약금 입금',rp:'대여자 → 차주법인',nt:'분양가의 5~10% · 소비대차 당일 반환 조건\n· 납부처가 신탁계좌 아닐 수 있어 당일 출금 구조 사전 확인 필수',law:true},
+    {i:1,n:'②',nm:'차주 → 납부처 계약금 입금',rp:'차주법인 → 납부처',nt:'입금확인증 수령 후 대여자 원금 반환\n· 납부처: 시행사·분양대행사 계좌 (신탁계좌 아닐 수 있음)'},
+    {i:2,n:'③',nm:'원금 반환 + 수수료 정산',rp:'분양대행사 → 대여자',nt:'수수료: 대출금액의 0.5~1.5% · 시행사 부담\n· 배분: 대여자 65% / 분양대행사 30% / 기타 5%'}
+  ];
+  c0.forEach(s=>{h+=stepRow('cal','c',s.i,s.n,s.nm,s.rp,u,{lawChip:s.law})+dr('c',s.i,s.nt,'',u.cDt[s.i]||'',u.cMm[s.i]||'');});
+  h+=`<div class="sec-gap"></div><div class="sec-line"></div>`;
 
-  <div class="step-row">
-    <div class="step-sp"><div class="step-circle" style="border-color:var(--cp1)"></div></div>
-    <div class="step-main"><span class="step-num">①</span><span class="step-name">대여자 → 차주 계약금 입금</span><span class="law-chip">§598</span></div>
-    <div class="resp-col">대여자<span class="resp-arrow">→</span>차주법인</div>
-    <div class="stat-col"><span class="st-badge st-none" data-grp="cal" data-idx="0" onclick="cycleStatus(this,'cal')">—</span></div>
-    <div class="more-col"><div class="more-btn" onclick="toggleDetail('c',0)">+</div></div>
-  </div>
-  <div id="cd0" class="detail-drawer">
-    <div class="detail-row"><span class="detail-lbl">비고</span><div><div class="detail-val">분양가의 5~10% · 소비대차 당일 반환 조건</div><div class="detail-note-txt">· 납부처가 신탁계좌 아닐 수 있어 당일 출금 구조 사전 확인 필수</div></div></div>
-    <div class="detail-row"><span class="detail-lbl">날짜</span><input type="date" class="date-input-sm" onchange="onDate(this,'cal',0)"></div>
-    <div class="detail-row"><span class="detail-lbl">메모</span><textarea class="memo-input" rows="2" placeholder="메모"></textarea></div>
-  </div>
-
-  <div class="step-row">
-    <div class="step-sp"><div class="step-circle" style="border-color:var(--cp1)"></div></div>
-    <div class="step-main"><span class="step-num">②</span><span class="step-name">차주 → 납부처 계약금 입금</span></div>
-    <div class="resp-col">차주법인<span class="resp-arrow">→</span>납부처</div>
-    <div class="stat-col"><span class="st-badge st-none" data-grp="cal" data-idx="1" onclick="cycleStatus(this,'cal')">—</span></div>
-    <div class="more-col"><div class="more-btn" onclick="toggleDetail('c',1)">+</div></div>
-  </div>
-  <div id="cd1" class="detail-drawer">
-    <div class="detail-row"><span class="detail-lbl">비고</span><div><div class="detail-val">입금확인증 수령 후 대여자 원금 반환</div><div class="detail-note-txt">· 납부처: 시행사·분양대행사 계좌 (신탁계좌 아닐 수 있음)</div></div></div>
-    <div class="detail-row"><span class="detail-lbl">날짜</span><input type="date" class="date-input-sm" onchange="onDate(this,'cal',1)"></div>
-    <div class="detail-row"><span class="detail-lbl">메모</span><textarea class="memo-input" rows="2" placeholder="메모"></textarea></div>
-  </div>
-
-  <div class="step-row">
-    <div class="step-sp"><div class="step-circle" style="border-color:var(--cp1)"></div></div>
-    <div class="step-main"><span class="step-num">③</span><span class="step-name">원금 반환 + 수수료 정산</span></div>
-    <div class="resp-col">분양대행사<span class="resp-arrow">→</span>대여자</div>
-    <div class="stat-col"><span class="st-badge st-none" data-grp="cal" data-idx="2" onclick="cycleStatus(this,'cal')">—</span></div>
-    <div class="more-col"><div class="more-btn" onclick="toggleDetail('c',2)">+</div></div>
-  </div>
-  <div id="cd2" class="detail-drawer">
-    <div class="detail-row"><span class="detail-lbl">비고</span><div><div class="detail-val">수수료: 대출금액의 0.5~1.5% · 시행사 부담</div><div class="detail-note-txt">· 배분: 대여자 65% / 분양대행사 30% / 기타 5%</div></div></div>
-    <div class="detail-row"><span class="detail-lbl">날짜</span><input type="date" class="date-input-sm" onchange="onDate(this,'cal',2)"></div>
-    <div class="detail-row"><span class="detail-lbl">메모</span><textarea class="memo-input" rows="2" placeholder="메모"></textarea></div>
-  </div>
-
-  <div class="sec-gap"></div><div class="sec-line"></div>
-
-  <!-- ═══ PHASE 2A · 중도금 콜자금 (계약 시점) ═══ -->
-  <div class="phase-block" id="cal-mid-a">
-    <div class="phase-node">
-      <div class="node-circle" style="border-color:var(--mid-a);color:var(--mid-a)">●</div>
-      <div class="flag-arm" style="background:linear-gradient(90deg,#80B0F0,var(--mid-a))">
-        <div class="flag-tip" style="background:var(--mid-a)"></div>
-        <div class="flag-cloth" style="background:var(--mid-a)">
-          <span class="flag-num" style="font-size:11px">2A</span>
+  // PHASE 2A 중도금 계약시점
+  if(mid==='a'){
+    h+=`<div class="phase-block" id="cal-mid-a">
+      <div class="phase-node"><div class="node-circle" style="border-color:var(--mid-a);color:var(--mid-a)">●</div>
+        <div class="flag-arm" style="background:linear-gradient(90deg,#80B0F0,var(--mid-a))"><div class="flag-tip" style="background:var(--mid-a)"></div>
+          <div class="flag-cloth" style="background:var(--mid-a)"><span class="flag-num" style="font-size:11px">2A</span></div></div></div>
+      <div class="phase-label-wrap">
+        <div class="phase-name-box" style="border-color:var(--mid-a)">
+          <div class="phase-name-top" style="color:var(--mid-a)">콜 ② 중도금 <span class="phase-dday" style="background:var(--mid-a)">계약 시점</span></div>
+          <div class="phase-name-bot" style="background:var(--mid-a)">계약금과 동시 또는 별도 · 집단대출 신탁계좌</div>
         </div>
-      </div>
-    </div>
-    <div class="phase-label-wrap">
-      <div class="phase-name-box" style="border-color:var(--mid-a)">
-        <div class="phase-name-top" style="color:var(--mid-a)">
-          콜 ② 중도금 <span class="phase-dday" style="background:var(--mid-a)">계약 시점</span>
+        <div class="col-link-bar"><button class="col-link-btn btn-sal" onclick="jumpToSal('sal-p2')">📋 분양계약 Phase 2 연결</button></div>
+      </div></div>`;
+    h+=stepRow('cal','c',3,'④','중도금 대여 실행 (회차별)','대여자 → 차주',u)+dr('c',3,'회차당 10% × 최대 6회 반복 실행\n· 집단대출 부결 위험 / 시공사 부실 시 조건 변경 위험','',u.cDt[3]||'',u.cMm[3]||'');
+    h+=stepRow('cal','c',4,'⑤','차주 → 신탁계좌 중도금 납부','차주 → 신탁사',u)+dr('c',4,'납부 → 신탁사 출금 → 분양대행사 → 대여자 반환 (당일)','',u.cDt[4]||'',u.cMm[4]||'');
+    h+=`<div class="sec-gap"></div><div class="sec-line"></div>`;
+  } else {
+    // PHASE 2B 중도금 잔금시점
+    h+=`<div class="phase-block" id="cal-mid-b">
+      <div class="phase-node"><div class="node-circle" style="border-color:var(--mid-b);color:var(--mid-b)">●</div>
+        <div class="flag-arm" style="background:linear-gradient(90deg,#A080E0,var(--mid-b))"><div class="flag-tip" style="background:var(--mid-b)"></div>
+          <div class="flag-cloth" style="background:var(--mid-b)"><span class="flag-num" style="font-size:11px">2B</span></div></div></div>
+      <div class="phase-label-wrap">
+        <div class="phase-name-box" style="border-color:var(--mid-b)">
+          <div class="phase-name-top" style="color:var(--mid-b)">콜 ② 중도금 <span class="phase-dday" style="background:var(--mid-b)">잔금 시점</span></div>
+          <div class="phase-name-bot" style="background:var(--mid-b)">잔금 납부일(D-0) 통합 실행 · 동일 영업일 완결</div>
         </div>
-        <div class="phase-name-bot" style="background:var(--mid-a)">계약금과 동시 또는 별도 · 집단대출 신탁계좌</div>
-      </div>
-      <div class="col-link-bar">
-        <button class="col-link-btn btn-sal" onclick="jumpToSal('sal-p2')">
-          📋 분양계약 Phase 2 연결
-        </button>
-      </div>
-    </div>
-  </div>
+        <div class="col-link-bar"><button class="col-link-btn btn-sal" onclick="jumpToSal('sal-p3')">📋 분양계약 Phase 3 연결</button></div>
+      </div></div>`;
+    h+=stepRow('cal','c',5,'⑥','잔금 콜자금과 통합 대여 실행','대여자 → 차주',u,{crit:true})+dr('c',5,'중도금 + 잔금을 동일 영업일 통합 실행','★ slack=0 · 잔금 콜자금과 동일 리스크 수준',u.cDt[5]||'',u.cMm[5]||'');
+    h+=`<div class="sec-gap"></div><div class="sec-line"></div>`;
+  }
 
-  <div class="step-row">
-    <div class="step-sp"><div class="step-circle" style="border-color:var(--mid-a)"></div></div>
-    <div class="step-main"><span class="step-num">④</span><span class="step-name">중도금 대여 실행 (회차별)</span></div>
-    <div class="resp-col">대여자<span class="resp-arrow">→</span>차주</div>
-    <div class="stat-col"><span class="st-badge st-none" data-grp="cal" data-idx="3" onclick="cycleStatus(this,'cal')">—</span></div>
-    <div class="more-col"><div class="more-btn" onclick="toggleDetail('c',3)">+</div></div>
-  </div>
-  <div id="cd3" class="detail-drawer">
-    <div class="detail-row"><span class="detail-lbl">비고</span><div><div class="detail-val">회차당 10% × 최대 6회 반복 실행</div><div class="detail-note-txt">· 집단대출 부결 위험 / 시공사 부실 시 조건 변경 위험</div></div></div>
-    <div class="detail-row"><span class="detail-lbl">날짜</span><input type="date" class="date-input-sm" onchange="onDate(this,'cal',3)"></div>
-    <div class="detail-row"><span class="detail-lbl">메모</span><textarea class="memo-input" rows="2" placeholder="메모"></textarea></div>
-  </div>
-
-  <div class="step-row">
-    <div class="step-sp"><div class="step-circle" style="border-color:var(--mid-a)"></div></div>
-    <div class="step-main"><span class="step-num">⑤</span><span class="step-name">차주 → 신탁계좌 중도금 납부</span></div>
-    <div class="resp-col">차주<span class="resp-arrow">→</span>신탁사</div>
-    <div class="stat-col"><span class="st-badge st-none" data-grp="cal" data-idx="4" onclick="cycleStatus(this,'cal')">—</span></div>
-    <div class="more-col"><div class="more-btn" onclick="toggleDetail('c',4)">+</div></div>
-  </div>
-  <div id="cd4" class="detail-drawer">
-    <div class="detail-row"><span class="detail-lbl">비고</span><span class="detail-val">납부 → 신탁사 출금 → 분양대행사 → 대여자 반환 (당일)</span></div>
-    <div class="detail-row"><span class="detail-lbl">날짜</span><input type="date" class="date-input-sm" onchange="onDate(this,'cal',4)"></div>
-    <div class="detail-row"><span class="detail-lbl">메모</span><textarea class="memo-input" rows="2" placeholder="메모"></textarea></div>
-  </div>
-
-  <div class="sec-gap"></div><div class="sec-line"></div>
-
-  <!-- ═══ PHASE 2B · 중도금 콜자금 (잔금 시점) ═══ -->
-  <div class="phase-block" id="cal-mid-b">
-    <div class="phase-node">
-      <div class="node-circle" style="border-color:var(--mid-b);color:var(--mid-b)">●</div>
-      <div class="flag-arm" style="background:linear-gradient(90deg,#A080E0,var(--mid-b))">
-        <div class="flag-tip" style="background:var(--mid-b)"></div>
-        <div class="flag-cloth" style="background:var(--mid-b)">
-          <span class="flag-num" style="font-size:11px">2B</span>
-        </div>
-      </div>
-    </div>
-    <div class="phase-label-wrap">
-      <div class="phase-name-box" style="border-color:var(--mid-b)">
-        <div class="phase-name-top" style="color:var(--mid-b)">
-          콜 ② 중도금 <span class="phase-dday" style="background:var(--mid-b)">잔금 시점</span>
-        </div>
-        <div class="phase-name-bot" style="background:var(--mid-b)">잔금 납부일(D-0) 통합 실행 · 동일 영업일 완결</div>
-      </div>
-      <div class="col-link-bar">
-        <button class="col-link-btn btn-sal" onclick="jumpToSal('sal-p3')">
-          📋 분양계약 Phase 3 연결
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <div class="step-row" style="background:#FAF5FF">
-    <div class="step-sp"><div class="step-circle" style="border-color:var(--mid-b)"></div></div>
-    <div class="step-main"><span class="step-num">⑥</span><span class="step-name">잔금 콜자금과 통합 대여 실행</span><span class="step-tag warn">D-0</span></div>
-    <div class="resp-col">대여자<span class="resp-arrow">→</span>차주</div>
-    <div class="stat-col"><span class="st-badge st-none" data-grp="cal" data-idx="5" onclick="cycleStatus(this,'cal')">—</span></div>
-    <div class="more-col"><div class="more-btn" onclick="toggleDetail('c',5)">+</div></div>
-  </div>
-  <div id="cd5" class="detail-drawer">
-    <div class="detail-row"><span class="detail-lbl">비고</span><div><div class="detail-val">중도금 + 잔금을 동일 영업일 통합 실행</div><div class="detail-crit">★ slack=0 · 잔금 콜자금과 동일 리스크 수준</div></div></div>
-    <div class="detail-row"><span class="detail-lbl">날짜</span><input type="date" class="date-input-sm" onchange="onDate(this,'cal',5)"></div>
-    <div class="detail-row"><span class="detail-lbl">메모</span><textarea class="memo-input" rows="2" placeholder="메모"></textarea></div>
-  </div>
-
-  <div class="sec-gap"></div><div class="sec-line"></div>
-
-  <!-- ═══ PHASE 3 · 잔금 콜자금 준비 D-7~D-3 ★★ ═══ -->
-  <div class="phase-block" id="cal-p3">
-    <div class="phase-node">
-      <div class="node-circle" style="border-color:var(--cp3);color:var(--cp3)">●</div>
-      <div class="flag-arm" style="background:linear-gradient(90deg,#E8A840,var(--cp3))">
-        <div class="flag-tip" style="background:var(--cp3)"></div>
-        <div class="flag-cloth" style="background:var(--cp3)">
-          <span class="flag-num">3</span>
-          <span class="flag-star">★</span>
-        </div>
-      </div>
-    </div>
+  // PHASE 3 잔금 준비
+  h+=`<div class="phase-block" id="cal-p3">
+    <div class="phase-node"><div class="node-circle" style="border-color:var(--cp3);color:var(--cp3)">●</div>
+      <div class="flag-arm" style="background:linear-gradient(90deg,#E8A840,var(--cp3))"><div class="flag-tip" style="background:var(--cp3)"></div>
+        <div class="flag-cloth" style="background:var(--cp3)"><span class="flag-num">3</span><span class="flag-star">★</span></div></div></div>
     <div class="phase-label-wrap">
       <div class="phase-name-box" style="border-color:var(--cp3)">
-        <div class="phase-name-top" style="color:var(--cp3)">
-          콜 ③ 잔금 준비
-          <span class="phase-dday" style="background:var(--cp3)">D-7~D-3</span>
-          <span style="background:var(--cp3);color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px">★CRITICAL</span>
-        </div>
+        <div class="phase-name-top" style="color:var(--cp3)">콜 ③ 잔금 준비 <span class="phase-dday" style="background:var(--cp3)">D-7~D-3</span> <span style="background:var(--cp3);color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px">★CRITICAL</span></div>
         <div class="phase-name-bot" style="background:var(--cp3)">대여자 섭외 · 금액·수수료 협의 · 일정 확정</div>
       </div>
-      <div class="col-link-bar">
-        <button class="col-link-btn btn-sal" onclick="jumpToSal('sal-p3')">
-          📋 분양계약 Phase 3 (기표일 지정) 연결
-        </button>
-      </div>
-    </div>
-  </div>
+      <div class="col-link-bar"><button class="col-link-btn btn-sal" onclick="jumpToSal('sal-p3')">📋 분양계약 Phase 3 (기표일 지정) 연결</button></div>
+    </div></div>`;
+  h+=stepRow('cal','c',6,'⑦','대여자 섭외 및 확정','분양대행사 ↔ 대여자',u,{tags:[{cls:'warn',l:'D-7 필수'}]})+dr('c',6,'단기 자금 공급자 확보 — 원금+수수료 조건 구두 합의\n· 수수료율: 대출금액의 0.5~1.5% (시장 관행)','',u.cDt[6]||'',u.cMm[6]||'');
+  h+=stepRow('cal','c',7,'⑧','금액·수수료·일정 확정','분양대행사 ↔ 대여자·시행사',u)+dr('c',7,'콜자금 금액 = 분양가의 20~30%\n· 배분: 대여자65% / 대행사30% / 기타5%\n· D-0 시간표: 07:30→09:00→10:00→13:00→14:00→16:00','',u.cDt[7]||'',u.cMm[7]||'');
+  h+=`<div class="sec-gap"></div><div class="sec-line"></div>`;
 
-  <div class="step-row" style="background:#FFFAF0">
-    <div class="step-sp"><div class="step-circle" style="border-color:var(--cp3)"></div></div>
-    <div class="step-main"><span class="step-num">⑦</span><span class="step-name">대여자 섭외 및 확정</span><span class="step-tag warn">D-7</span></div>
-    <div class="resp-col">분양대행사<span class="resp-arrow">↔</span>대여자</div>
-    <div class="stat-col"><span class="st-badge st-none" data-grp="cal" data-idx="6" onclick="cycleStatus(this,'cal')">—</span></div>
-    <div class="more-col"><div class="more-btn" onclick="toggleDetail('c',6)">+</div></div>
-  </div>
-  <div id="cd6" class="detail-drawer">
-    <div class="detail-row"><span class="detail-lbl">비고</span><div><div class="detail-val">단기 자금 공급자 확보 — 원금+수수료 조건 구두 합의</div><div class="detail-note-txt">· 수수료율: 대출금액의 0.5~1.5% (시장 관행)</div></div></div>
-    <div class="detail-row"><span class="detail-lbl">날짜</span><input type="date" class="date-input-sm" onchange="onDate(this,'cal',6)"></div>
-    <div class="detail-row"><span class="detail-lbl">메모</span><textarea class="memo-input" rows="2" placeholder="메모"></textarea></div>
-  </div>
-
-  <div class="step-row" style="background:#FFFAF0">
-    <div class="step-sp"><div class="step-circle" style="border-color:var(--cp3)"></div></div>
-    <div class="step-main"><span class="step-num">⑧</span><span class="step-name">금액·수수료·일정 확정</span></div>
-    <div class="resp-col">분양대행사<span class="resp-arrow">↔</span>대여자·시행사</div>
-    <div class="stat-col"><span class="st-badge st-none" data-grp="cal" data-idx="7" onclick="cycleStatus(this,'cal')">—</span></div>
-    <div class="more-col"><div class="more-btn" onclick="toggleDetail('c',7)">+</div></div>
-  </div>
-  <div id="cd7" class="detail-drawer">
-    <div class="detail-row"><span class="detail-lbl">비고</span><div><div class="detail-val">콜자금 금액 = 분양가의 20~30%</div><div class="detail-note-txt">· 배분: 대여자65% / 대행사30% / 기타5%<br>· D-0 시간표: 07:30→09:00→10:00→13:00→14:00→16:00</div></div></div>
-    <div class="detail-row"><span class="detail-lbl">날짜</span><input type="date" class="date-input-sm" onchange="onDate(this,'cal',7)"></div>
-    <div class="detail-row"><span class="detail-lbl">메모</span><textarea class="memo-input" rows="2" placeholder="메모"></textarea></div>
-  </div>
-
-  <div class="sec-gap"></div><div class="sec-line"></div>
-
-  <!-- ═══ PHASE 4 · 콜자금 당일 D-0 ★★★ ═══ -->
-  <div class="phase-block" id="cal-p4">
-    <div class="phase-node">
-      <div class="node-circle" style="border-color:var(--cp4);color:var(--cp4)">●</div>
-      <div class="flag-arm" style="background:linear-gradient(90deg,#E05050,var(--cp4))">
-        <div class="flag-tip" style="background:var(--cp4)"></div>
-        <div class="flag-cloth" style="background:var(--cp4)">
-          <span class="flag-num" style="font-size:11px">D-0</span>
-          <span class="flag-star">★</span>
-        </div>
-      </div>
-    </div>
+  // PHASE 4 D-0 당일
+  h+=`<div class="phase-block" id="cal-p4">
+    <div class="phase-node"><div class="node-circle" style="border-color:var(--cp4);color:var(--cp4)">●</div>
+      <div class="flag-arm" style="background:linear-gradient(90deg,#E05050,var(--cp4))"><div class="flag-tip" style="background:var(--cp4)"></div>
+        <div class="flag-cloth" style="background:var(--cp4)"><span class="flag-num" style="font-size:11px">D-0</span><span class="flag-star">★</span></div></div></div>
     <div class="phase-label-wrap">
       <div class="phase-name-box" style="border-color:var(--cp4)">
-        <div class="phase-name-top" style="color:var(--cp4)">
-          콜 ③ 잔금 당일 (기표일)
-          <span class="phase-dday" style="background:var(--cp4)">D-0</span>
-          <span style="background:var(--cp4);color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px">SLACK=0</span>
-        </div>
+        <div class="phase-name-top" style="color:var(--cp4)">콜 ③ 잔금 당일 (기표일) <span class="phase-dday" style="background:var(--cp4)">D-0</span> <span style="background:var(--cp4);color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px">SLACK=0</span></div>
         <div class="phase-name-bot" style="background:var(--cp4)">Phase A 입금 → B 당일출금 → C 수수료 — 동일 영업일 완결</div>
       </div>
-      <div class="col-link-bar">
-        <button class="col-link-btn btn-잔금 btn-full" onclick="jumpToSal('sal-p4')">
-          📋 분양계약 기표 단계 연결 ★
-        </button>
-      </div>
-    </div>
-  </div>
+      <div class="col-link-bar"><button class="col-link-btn btn-잔금 btn-full" onclick="jumpToSal('sal-p4')">📋 분양계약 기표 단계 연결 ★</button></div>
+    </div></div>`;
+  const c4=[
+    {i:8,n:'⑨',nm:'【A】대여자 → 차주 입금',rp:'대여자 → 차주',nt:'잔금 대여 실행 — 당일 반환 조건 구두 확인\n· 잔금 시점 중도금(2B)도 이 시점 통합 대여',tags:[{cls:'time',l:'07:30'}]},
+    {i:9,n:'⑩',nm:'차주 → 신탁사 잔금 입금',rp:'차주 → 신탁사',nt:'잔금 전액 분양 신탁계좌 납부 · 입금확인증 수령',tags:[{cls:'time',l:'09:00'}]},
+    {i:10,n:'⑪',nm:'입금확인증 → 은행 제출 (대출 실행 요청)',rp:'차주 → KB국민은행',nt:'대주단 승인 후 대출 실행 요청 · 전체 거래 최고 리스크 시점',tags:[{cls:'time',l:'10:00'}],crit:true,cr:'★ 대출 부결 시 콜자금 반환 불가 → 거래 전체 무산'},
+    {i:11,n:'⑫',nm:'금융기관 대출 승인·실행',rp:'KB국민은행 → 차주',nt:'대출금 입금 · 잔금 납부 완료 처리',tags:[{cls:'time',l:'13:00'}]},
+    {i:12,n:'⑬',nm:'【B】신탁사 → 분양대행사 출금',rp:'신탁사 → 분양대행사',nt:'당일 출금 · 영업일 마감 전 필수 완료',tags:[{cls:'time',l:'14:00'}],crit:true,cr:'★ slack=0 — 당일 미출금 시 원금 반환 불가'},
+    {i:13,n:'⑭',nm:'【C】원금 반환 + 수수료 배분',rp:'분양대행사 → 대여자',nt:'원금 반환 + 수수료 정산 배분 (마감 전 완결)\n· 대여자65% / 분양대행사30% / 기타5%',tags:[{cls:'time',l:'16:00'}]}
+  ];
+  c4.forEach(s=>{h+=stepRow('cal','c',s.i,s.n,s.nm,s.rp,u,{crit:s.crit,tags:s.tags||[],circleStyle:s.crit?'border-color:#E05050':''});
+    h+=dr('c',s.i,s.nt,s.cr||'',u.cDt[s.i]||'',u.cMm[s.i]||'');});
+  h+=`<div class="sec-gap"></div><div class="sec-line"></div>`;
 
-  <div class="step-row crit-row">
-    <div class="step-sp"><div class="step-circle" style="border-color:var(--cp4)"></div></div>
-    <div class="step-main"><span class="step-num">⑨</span><span class="step-name">【A】대여자 → 차주 입금</span><span class="step-tag time">07:30</span></div>
-    <div class="resp-col">대여자<span class="resp-arrow">→</span>차주</div>
-    <div class="stat-col"><span class="st-badge st-none" data-grp="cal" data-idx="8" onclick="cycleStatus(this,'cal')">—</span></div>
-    <div class="more-col"><div class="more-btn" onclick="toggleDetail('c',8)">+</div></div>
-  </div>
-  <div id="cd8" class="detail-drawer">
-    <div class="detail-row"><span class="detail-lbl">비고</span><div><div class="detail-val">잔금 대여 실행 — 당일 반환 조건 구두 확인</div><div class="detail-note-txt">· 잔금 시점 중도금(2B)도 이 시점 통합 대여</div></div></div>
-    <div class="detail-row"><span class="detail-lbl">날짜</span><input type="date" class="date-input-sm" onchange="onDate(this,'cal',8)"></div>
-    <div class="detail-row"><span class="detail-lbl">메모</span><textarea class="memo-input" rows="2" placeholder="메모"></textarea></div>
-  </div>
-
-  <div class="step-row crit-row">
-    <div class="step-sp"><div class="step-circle" style="border-color:var(--cp4)"></div></div>
-    <div class="step-main"><span class="step-num">⑩</span><span class="step-name">차주 → 신탁사 잔금 입금</span><span class="step-tag time">09:00</span></div>
-    <div class="resp-col">차주<span class="resp-arrow">→</span>신탁사</div>
-    <div class="stat-col"><span class="st-badge st-none" data-grp="cal" data-idx="9" onclick="cycleStatus(this,'cal')">—</span></div>
-    <div class="more-col"><div class="more-btn" onclick="toggleDetail('c',9)">+</div></div>
-  </div>
-  <div id="cd9" class="detail-drawer">
-    <div class="detail-row"><span class="detail-lbl">비고</span><div><div class="detail-val">잔금 전액 분양 신탁계좌 납부 · 납부확인증 수령</div></div></div>
-    <div class="detail-row"><span class="detail-lbl">날짜</span><input type="date" class="date-input-sm" onchange="onDate(this,'cal',9)"></div>
-    <div class="detail-row"><span class="detail-lbl">메모</span><textarea class="memo-input" rows="2" placeholder="메모"></textarea></div>
-  </div>
-
-  <div class="step-row crit-row">
-    <div class="step-sp"><div class="step-circle" style="border-color:var(--cp4);background:#FFE0E0"></div></div>
-    <div class="step-main">
-      <span class="step-num" style="color:var(--cp4)">⑪</span>
-      <span class="step-name" style="color:var(--cp4);font-weight:700">납부확인증 → 은행 제출</span>
-      <span class="step-tag crit">★ 최고리스크</span>
-      <span class="step-tag time">10:00</span>
-    </div>
-    <div class="resp-col">차주<span class="resp-arrow">→</span>KB국민은행</div>
-    <div class="stat-col"><span class="st-badge st-none" data-grp="cal" data-idx="10" onclick="cycleStatus(this,'cal')">—</span></div>
-    <div class="more-col"><div class="more-btn" onclick="toggleDetail('c',10)">+</div></div>
-  </div>
-  <div id="cd10" class="detail-drawer">
-    <div class="detail-row"><span class="detail-lbl">비고</span><div><div class="detail-val">대출 실행 요청 · 전체 거래 최고 리스크 시점</div><div class="detail-crit">★ 대출 부결 시 콜자금 반환 불가 → 거래 전체 무산</div></div></div>
-    <div class="detail-row"><span class="detail-lbl">날짜</span><input type="date" class="date-input-sm" onchange="onDate(this,'cal',10)"></div>
-    <div class="detail-row"><span class="detail-lbl">메모</span><textarea class="memo-input" rows="2" placeholder="메모"></textarea></div>
-  </div>
-
-  <div class="step-row crit-row">
-    <div class="step-sp"><div class="step-circle" style="border-color:var(--cp4)"></div></div>
-    <div class="step-main"><span class="step-num">⑫</span><span class="step-name">금융기관 대출 승인·실행</span><span class="step-tag time">13:00</span></div>
-    <div class="resp-col">KB국민은행<span class="resp-arrow">→</span>차주</div>
-    <div class="stat-col"><span class="st-badge st-none" data-grp="cal" data-idx="11" onclick="cycleStatus(this,'cal')">—</span></div>
-    <div class="more-col"><div class="more-btn" onclick="toggleDetail('c',11)">+</div></div>
-  </div>
-  <div id="cd11" class="detail-drawer">
-    <div class="detail-row"><span class="detail-lbl">비고</span><span class="detail-val">대출금 입금 · 잔금 납부 완료 처리</span></div>
-    <div class="detail-row"><span class="detail-lbl">날짜</span><input type="date" class="date-input-sm" onchange="onDate(this,'cal',11)"></div>
-    <div class="detail-row"><span class="detail-lbl">메모</span><textarea class="memo-input" rows="2" placeholder="메모"></textarea></div>
-  </div>
-
-  <div class="step-row crit-row">
-    <div class="step-sp"><div class="step-circle" style="border-color:var(--cp4)"></div></div>
-    <div class="step-main"><span class="step-num">⑬</span><span class="step-name">【B】신탁사 → 분양대행사 출금</span><span class="step-tag time">14:00</span></div>
-    <div class="resp-col">신탁사<span class="resp-arrow">→</span>분양대행사</div>
-    <div class="stat-col"><span class="st-badge st-none" data-grp="cal" data-idx="12" onclick="cycleStatus(this,'cal')">—</span></div>
-    <div class="more-col"><div class="more-btn" onclick="toggleDetail('c',12)">+</div></div>
-  </div>
-  <div id="cd12" class="detail-drawer">
-    <div class="detail-row"><span class="detail-lbl">비고</span><div><div class="detail-val">당일 출금 · 영업일 마감 전 필수 완료</div><div class="detail-crit">★ slack=0 — 당일 미출금 시 원금 반환 불가</div></div></div>
-    <div class="detail-row"><span class="detail-lbl">날짜</span><input type="date" class="date-input-sm" onchange="onDate(this,'cal',12)"></div>
-    <div class="detail-row"><span class="detail-lbl">메모</span><textarea class="memo-input" rows="2" placeholder="메모"></textarea></div>
-  </div>
-
-  <div class="step-row crit-row">
-    <div class="step-sp"><div class="step-circle" style="border-color:var(--gold)"></div></div>
-    <div class="step-main"><span class="step-num">⑭</span><span class="step-name">【C】원금 반환 + 수수료 배분</span><span class="step-tag time">16:00</span></div>
-    <div class="resp-col">분양대행사<span class="resp-arrow">→</span>대여자</div>
-    <div class="stat-col"><span class="st-badge st-none" data-grp="cal" data-idx="13" onclick="cycleStatus(this,'cal')">—</span></div>
-    <div class="more-col"><div class="more-btn" onclick="toggleDetail('c',13)">+</div></div>
-  </div>
-  <div id="cd13" class="detail-drawer">
-    <div class="detail-row"><span class="detail-lbl">비고</span><div><div class="detail-val">원금 반환 + 수수료 정산 배분 (마감 전 완결)</div><div class="detail-note-txt">· 대여자65% / 분양대행사30% / 기타5%</div></div></div>
-    <div class="detail-row"><span class="detail-lbl">수수료</span><input type="text" class="date-input-sm" placeholder="000,000 원"></div>
-    <div class="detail-row"><span class="detail-lbl">날짜</span><input type="date" class="date-input-sm" onchange="onDate(this,'cal',13)"></div>
-    <div class="detail-row"><span class="detail-lbl">메모</span><textarea class="memo-input" rows="2" placeholder="메모"></textarea></div>
-  </div>
-
-  <div class="sec-gap"></div><div class="sec-line"></div>
-
-  <!-- ═══ PHASE 5 · 완료 D+1~D+7 ═══ -->
-  <div class="phase-block" id="cal-p5">
-    <div class="phase-node">
-      <div class="node-circle" style="border-color:var(--cp5);color:var(--cp5)">●</div>
-      <div class="flag-arm" style="background:linear-gradient(90deg,#60C090,var(--cp5))">
-        <div class="flag-tip" style="background:var(--cp5)"></div>
-        <div class="flag-cloth" style="background:var(--cp5)"><span class="flag-num">✓</span></div>
-      </div>
-    </div>
+  // PHASE 5 완료
+  h+=`<div class="phase-block" id="cal-p5">
+    <div class="phase-node"><div class="node-circle" style="border-color:var(--cp5);color:var(--cp5)">●</div>
+      <div class="flag-arm" style="background:linear-gradient(90deg,#60C090,var(--cp5))"><div class="flag-tip" style="background:var(--cp5)"></div>
+        <div class="flag-cloth" style="background:var(--cp5)"><span class="flag-num">✓</span></div></div></div>
     <div class="phase-label-wrap">
       <div class="phase-name-box" style="border-color:var(--cp5)">
-        <div class="phase-name-top" style="color:var(--cp5)">
-          대출 실행·완료
-          <span class="phase-dday" style="background:var(--cp5)">D+1~D+7</span>
-        </div>
+        <div class="phase-name-top" style="color:var(--cp5)">대출 실행·완료 <span class="phase-dday" style="background:var(--cp5)">D+1~D+7</span></div>
         <div class="phase-name-bot" style="background:var(--cp5)">잔금 납부 완료 · 소유권 이전 등기</div>
       </div>
-    </div>
-  </div>
+    </div></div>`;
+  h+=stepRow('cal','c',14,'⑮','잔금 납부 완료 확인','파인아이앤디 → 분양대행사',u)+dr('c',14,'시행사로부터 잔금 납부 처리 완료 공문 수령','',u.cDt[14]||'',u.cMm[14]||'');
+  h+=stepRow('cal','c',15,'⑯','소유권 이전 등기 완료','차주 ↔ 법무사',u)+dr('c',15,'D+7 이내 소유권 이전 등기 완료 — 콜자금 구조 전체 완결\n· 정경철 세무사 연계 세무 처리','',u.cDt[15]||'',u.cMm[15]||'');
+  h+=`<div style="height:20px"></div></div>`;
+  return h;
+}
 
-  <div class="step-row">
-    <div class="step-sp"><div class="step-circle" style="border-color:var(--cp5)"></div></div>
-    <div class="step-main"><span class="step-num">⑮</span><span class="step-name">잔금 납부 완료 확인</span></div>
-    <div class="resp-col">파인아이앤디<span class="resp-arrow">→</span>대행사</div>
-    <div class="stat-col"><span class="st-badge st-none" data-grp="cal" data-idx="14" onclick="cycleStatus(this,'cal')">—</span></div>
-    <div class="more-col"><div class="more-btn" onclick="toggleDetail('c',14)">+</div></div>
-  </div>
-  <div id="cd14" class="detail-drawer">
-    <div class="detail-row"><span class="detail-lbl">비고</span><span class="detail-val">시행사로부터 잔금 납부 처리 완료 공문 수령</span></div>
-    <div class="detail-row"><span class="detail-lbl">날짜</span><input type="date" class="date-input-sm" onchange="onDate(this,'cal',14)"></div>
-    <div class="detail-row"><span class="detail-lbl">메모</span><textarea class="memo-input" rows="2" placeholder="메모"></textarea></div>
-  </div>
-
-  <div class="step-row">
-    <div class="step-sp"><div class="step-circle" style="border-color:var(--cp5)"></div></div>
-    <div class="step-main"><span class="step-num">⑯</span><span class="step-name">소유권 이전 등기 완료</span></div>
-    <div class="resp-col">차주<span class="resp-arrow">↔</span>법무사</div>
-    <div class="stat-col"><span class="st-badge st-none" data-grp="cal" data-idx="15" onclick="cycleStatus(this,'cal')">—</span></div>
-    <div class="more-col"><div class="more-btn" onclick="toggleDetail('c',15)">+</div></div>
-  </div>
-  <div id="cd15" class="detail-drawer">
-    <div class="detail-row"><span class="detail-lbl">비고</span><div><div class="detail-val">D+7 이내 소유권 이전 등기 완료 — 콜자금 구조 전체 완결</div><div class="detail-note-txt">· 정경철 세무사 연계 세무 처리</div></div></div>
-    <div class="detail-row"><span class="detail-lbl">날짜</span><input type="date" class="date-input-sm" onchange="onDate(this,'cal',15)"></div>
-    <div class="detail-row"><span class="detail-lbl">메모</span><textarea class="memo-input" rows="2" placeholder="메모"></textarea></div>
-  </div>
-
-  <div style="height:20px"></div>
-  </div><!-- /body -->
-
-</div><!-- /tab-content cal -->
-
-<div class="footer-note">
-  세종 어반아트리움 파인앤유 · RSL Management<br>
-  분양계약 로드맵 통합 관리 시스템 · MOIN · BIC
-</div>
-<div class="bot-bar"></div>
-</div><!-- /page -->
-
-<script>
-const STATUS=[{cls:'st-none',label:'—'},{cls:'st-plan',label:'예정'},{cls:'st-conf',label:'진행중'},{cls:'st-done',label:'완료'},{cls:'st-crit',label:'지연'}];
-const SAL_TOTAL=10, CAL_TOTAL=16;
-let salSt=new Array(SAL_TOTAL).fill(0), calSt=new Array(CAL_TOTAL).fill(0);
-
+/* ════════════════════════════════════════
+   ROADMAP INTERACTIONS (원본 그대로)
+════════════════════════════════════════ */
 function cycleStatus(el,grp){
-  const i=+el.dataset.idx, arr=grp==='sal'?salSt:calSt;
-  arr[i]=(arr[i]+1)%STATUS.length;
-  const s=STATUS[arr[i]]; el.className='st-badge '+s.cls; el.textContent=s.label;
-  updateProgress(grp);
+  if(!cur)return;
+  const u=db.units[cur]; if(!u)return;
+  const i=+el.dataset.idx, arr=grp==='sal'?u.sS:u.cS;
+  arr[i]=(arr[i]+1)%ST.length;
+  const v=arr[i]; el.className='st-badge '+ST[v].c; el.textContent=ST[v].l;
+  autoSave(); updateProgress(grp);
 }
 function onDate(el,grp,i){
-  i=+i; const arr=grp==='sal'?salSt:calSt;
+  if(!cur)return;
+  const u=db.units[cur]; if(!u)return;
+  i=+i;
+  const arr=grp==='sal'?u.sS:u.cS, dt=grp==='sal'?u.sDt:u.cDt;
+  dt[i]=el.value;
   const b=document.querySelector(`.st-badge[data-grp="${grp}"][data-idx="${i}"]`);
   if(el.value&&arr[i]===0){arr[i]=1; if(b){b.className='st-badge st-plan';b.textContent='예정';}}
   if(!el.value){arr[i]=0; if(b){b.className='st-badge st-none';b.textContent='—';}}
-  updateProgress(grp);
+  autoSave(); updateProgress(grp);
+}
+function onMemo(el,grp,i){
+  if(!cur)return;
+  const u=db.units[cur]; if(!u)return;
+  const mm=grp==='sal'?u.sMm:u.cMm;
+  mm[+i]=el.value; autoSave();
+}
+function toggleDetail(pre,i){
+  const d=document.getElementById(pre+'d'+i); if(!d)return;
+  const open=d.classList.toggle('open');
+  let el=d.previousElementSibling;
+  while(el&&!el.classList.contains('step-row'))el=el.previousElementSibling;
+  if(el){const btn=el.querySelector('.more-btn');if(btn){btn.textContent=open?'−':'+';btn.classList.toggle('open',open);}}
 }
 function updateProgress(grp){
+  if(!cur)return;
+  const u=db.units[cur]; if(!u)return;
   if(grp==='sal'){
-    const p=Math.round(salSt.filter(s=>s===3).length/SAL_TOTAL*100);
+    const p=Math.round((u.sS||[]).filter(s=>s===3).length/SAL_N*100);
     document.getElementById('sal-prog-fill').style.width=p+'%';
     document.getElementById('sal-prog-pct').textContent=p+'%';
   } else {
-    const p=Math.round(calSt.filter(s=>s===3).length/CAL_TOTAL*100);
-    document.getElementById('cal-prog-fill').style.width=p+'%';
-    document.getElementById('cal-prog-pct').textContent=p+'%';
+    const p=Math.round((u.cS||[]).filter(s=>s===3).length/CAL_N*100);
+    // we don't have a separate cal progress bar but can update sal bar overall
+    const tot=Math.round([...(u.sS||[]),...(u.cS||[])].filter(s=>s===3).length/(SAL_N+CAL_N)*100);
+    document.getElementById('sal-prog-fill').style.width=tot+'%';
+    document.getElementById('sal-prog-pct').textContent=tot+'%';
   }
 }
-function toggleDetail(pre,i){
-  const d=document.getElementById(pre+'d'+i);
-  const open=d.classList.toggle('open');
-  let el=d.previousElementSibling;
-  while(el&&!el.classList.contains('step-row')) el=el.previousElementSibling;
-  if(el){const btn=el.querySelector('.more-btn'); if(btn){btn.textContent=open?'−':'+'; btn.classList.toggle('open',open);}}
-}
 function switchTab(tab){
-  document.querySelectorAll('.tab-content').forEach(e=>e.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(e=>e.classList.remove('active'));
-  document.getElementById('content-'+tab).classList.add('active');
+  document.querySelectorAll('#unit-ov .tab-btn').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('#unit-ov .tab-content').forEach(e=>e.classList.remove('active'));
   document.getElementById('tab-'+tab).classList.add('active');
-  window.scrollTo({top:0,behavior:'smooth'});
+  document.getElementById('content-'+tab).classList.add('active');
+  document.getElementById('u-page').scrollTop=0;
 }
 function jumpToCall(id){
   switchTab('cal');
-  setTimeout(()=>{
-    const el=document.getElementById(id);
-    if(el){el.scrollIntoView({behavior:'smooth',block:'start'}); el.classList.add('highlight'); setTimeout(()=>el.classList.remove('highlight'),2000);}
-  },150);
+  setTimeout(()=>{const el=document.getElementById(id);if(el){el.scrollIntoView({behavior:'smooth',block:'start'});el.classList.add('highlight');setTimeout(()=>el.classList.remove('highlight'),2000);}},150);
 }
 function jumpToSal(id){
   switchTab('sal');
-  setTimeout(()=>{
-    const el=document.getElementById(id);
-    if(el){el.scrollIntoView({behavior:'smooth',block:'start'}); el.classList.add('highlight'); setTimeout(()=>el.classList.remove('highlight'),2000);}
-  },150);
+  setTimeout(()=>{const el=document.getElementById(id);if(el){el.scrollIntoView({behavior:'smooth',block:'start'});el.classList.add('highlight');setTimeout(()=>el.classList.remove('highlight'),2000);}},150);
 }
 function selectMid(v){
-  document.getElementById('mid-tab-a').className='mid-tab a'+(v==='a'?'':' inactive');
-  document.getElementById('mid-tab-b').className='mid-tab b'+(v==='b'?'':' inactive');
+  if(!cur)return;
+  db.units[cur].mid=v; autoSave();
+  document.getElementById('ui-mid').value=v;
+  document.getElementById('mid-tab-a').className='mid-tab a'+(v!=='a'?' inactive':'');
+  document.getElementById('mid-tab-b').className='mid-tab b'+(v!=='b'?' inactive':'');
   document.getElementById('mid-body-a').style.display=v==='a'?'block':'none';
   document.getElementById('mid-body-b').style.display=v==='b'?'block':'none';
+  // re-render to show/hide mid phases
+  const savedScrollTop=document.getElementById('u-page').scrollTop;
+  renderUnit(); switchTab('cal');
+  setTimeout(()=>document.getElementById('u-page').scrollTop=savedScrollTop,50);
 }
-function updateSalTitle(){const b=document.getElementById('s-buyer').value,r=document.getElementById('s-room').value; document.title=([b,r].filter(Boolean).join(' · ')||'파인앤유')+' · 분양계약 로드맵';}
-function updateCalTitle(){const b=document.getElementById('c-buyer').value; document.title=(b||'파인앤유')+' · 콜자금 로드맵';}
+
+/* ════════════════════════════════════════
+   MANUAL (원본 로드맵 디자인, 정적)
+════════════════════════════════════════ */
+function buildManual(){
+  // inject static versions of SAL and CAL into manual divs
+  const dummy={sS:Array(SAL_N).fill(0),cS:Array(CAL_N).fill(0),sDt:Array(SAL_N).fill(''),cDt:Array(CAL_N).fill(''),sMm:Array(SAL_N).fill(''),cMm:Array(CAL_N).fill(''),mid:'a'};
+  // make non-interactive by removing event handlers (they'll just call cycleStatus with cur=null)
+  document.getElementById('man-content-sal').innerHTML=buildSalHTML(dummy);
+  document.getElementById('man-content-cal').innerHTML=buildCalHTML(dummy);
+}
+function manTab(t){
+  ['sal','cal'].forEach(x=>{
+    document.getElementById('man-tab-'+x).classList.toggle('active',x===t);
+    document.getElementById('man-content-'+x).classList.toggle('active',x===t);
+  });
+  document.getElementById('wrap').scrollTop=0;
+}
+
+/* ════════════════════════════════════════
+   SCREEN ROUTER + MISC
+════════════════════════════════════════ */
+function goScr(n){
+  document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+  document.getElementById('s-'+n).classList.add('on');
+  document.getElementById('nb-'+n).classList.add('on');
+  document.getElementById('wrap').scrollTop=0;
+  if(n==='home')renderHome();
+}
+function toast(msg){
+  const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),2400);
+}
+
+/* INIT */
+initDB();
+renderHome();
+buildManual();
 </script>
 </body>
 </html>
